@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Log In page</title>
+    <link rel="stylesheet" href="../styles/logIn.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../homepage.html'">LOGO</div>
+      <div class="signup" onclick="window.location.href='signUp.html'">Sign Up</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="title">
+          <p>Log In</p>
+        </div>
+
+        <div class="input-container">
+          <div class="outer-username-container">
+            <div class="username-container">
+              <label for="username">Username</label>
+              <div class="input-wrapper input-wrapper-username">
+                <input type="text" id="username" placeholder="username">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="outer-password-container">
+            <div class="password-container">
+              <label for="password">Password</label>
+              <div class="input-wrapper input-wrapper-password">
+                <input type="password" id="password" placeholder="password">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                <span class="show-password show-password-js">👁</span>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+
+        <div class="logIn-container">
+          <button class="logIn logIn-js">Log In</button>
+        </div>
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../scripts/logIn.js"></script>
+    <script></script>
+  </body>
+</html>

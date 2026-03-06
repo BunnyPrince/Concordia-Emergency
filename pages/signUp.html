@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up page</title>
+    <link rel="stylesheet" href="../styles/signUp.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='logIn.html'">Log In</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="title">
+          <p>Sing Up</p>
+        </div>
+
+        <div class="input-container">
+          <div class="outer-username-container">
+            <div class="username-container">
+              <label for="username">Username</label>
+              <div class="input-wrapper input-wrapper-username">
+                <input type="text" id="username" placeholder="username">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="outer-password-container">
+            <div class="password-container">
+              <label for="password">Password</label>
+              <div class="input-wrapper input-wrapper-password">
+                <input type="password" id="password" placeholder="password">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                <span class="show-password show-password-js" >👁</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="outer-re-enter-password-container">
+            <div class="re-enter-password-container">
+              <label for="re-enter-password">Re-enter Password</label>
+              <div class="input-wrapper input-wrapper-re-enter-password">
+                <input type="password" id="re-enter-password" placeholder="password">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                <span class="show-re-enter-password show-re-enter-password-js">👁</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accessibility-container">
+            <label for="accessibility">Accessibility Preferences</label>
+            <select id="accessibility" name="accessibility">
+              <option value="">Select an option</option>
+              <option value="wheelchair">Wheelchair user</option>
+              <option value="mobility">Mobility impairment</option>
+              <option value="visual">Visual impairment</option>
+              <option value="anxiety">Anxiety-sensitive mode</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="signUp-container">
+          <button class="signUp signUp-js">Sign Up</button>
+        </div>
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../scripts/signUp.js"></script>
+    <script></script>
+  </body>
+</html>
