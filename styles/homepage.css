@@ -159,11 +159,15 @@ body{
 /* ---------- MOBILE ---------- */
 
 @media (max-width: 600px){
+  .main-container{
+    padding: 0px;
+  }
   .inner-container{
     flex: 1; 
     background-color: var(--container-color);
     padding: 15px;
     display: block;
+    border-radius: 0px;
   }
 
   /* Map */
@@ -175,8 +179,8 @@ body{
     min-height: 50vh;
     justify-content:center;
     align-items:center;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
   }
 
   /* Right panel */
@@ -215,8 +219,8 @@ body{
   .bottom-section{
     background-color: var(--container-color);
     padding: 15px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
 
   .bottom-section-detail{
@@ -225,8 +229,8 @@ body{
     align-items:center;
     padding:25px;
     display: block;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
 
   .info-text{

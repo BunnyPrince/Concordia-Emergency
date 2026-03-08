@@ -182,10 +182,14 @@ body{
 @media (max-width: 600px){
   .main-container{ 
     min-height: 80vh;
+    padding: 0px;
   }
 
   .inner-container{
     width: 100%;
+    margin-top: 0px;
+    border-radius: 0px;
+    height: 100%;
   }
   .input-container {
     display: flex;
