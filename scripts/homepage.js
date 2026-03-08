@@ -1,4 +1,4 @@
-import { isLoggedIn } from "../data/profile.js";
+import { isLoggedIn } from "../data/profileData.js";
 import {normalColors} from "../data/colors.js"
 
 function toggleMenu() {
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(isLoggedIn){
     const profileButtons = document.querySelector(".auth-buttons");
     profileButtons.innerHTML = `
-    <div class="profile profile-js">Profile</div>
+    <div class="profile profile-js" onclick="window.location.href='pages/profile.html'">Profile</div>
     `;
     profileButtons.style.display = 'flex'; 
     profileButtons.style.gridTemplateColumns = '';
