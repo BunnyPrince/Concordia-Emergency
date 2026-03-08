@@ -18,11 +18,15 @@
     <!-- Main Container -->
     <div class="main-container">
       <div class="inner-container">
-        <div class="title">
-          <p>Broken Elevator Details - ACTIVE
-            <img src="../images/circle-red.png" alt="profile icon">
-          </p>
-          
+
+        <div class="title-container">
+          <img class="arrow" src="../images/arrow-left-solid.png" alt="profile icon"
+            onclick="window.location.href='alertHistory.html'">
+          <div class="title">
+            <p>Broken Elevator Details - ACTIVE
+              <img src="../images/circle-red.png" alt="profile icon">
+            </p>
+          </div>
         </div>
         
         <div class="status-inner-card status">
@@ -115,7 +119,10 @@
         <div class="detail-card review-inner-card review">
           <p class="card-title centered">Post-Arrival Review</p>
           <div class="review-container centered">
-            <button class="review-button review-button-js">Review</button>
+            <button class="review-button review-button-js" 
+            onclick="window.location.href='alertReview.html'">
+              Review
+            </button>
           </div>
         </div>
 

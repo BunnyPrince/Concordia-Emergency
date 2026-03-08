@@ -52,6 +52,8 @@ body{
   display: flex;
   flex-direction: column;
   padding: 10px;
+  padding-left: 120px;
+  padding-right: 120px;
 
 }
 
@@ -59,18 +61,9 @@ body{
   flex: 1; 
   background-color: var(--container-color);
   padding: 15px;
-  grid-template-columns: 70% 30% ;
   border-radius: 25px;
   border-radius: 25px;
 }
-
-.title-container {
-  position: relative;    
-  height: 70px;        
-  display: flex;
-  align-items: center;
-}
-
 .title-container {
   position: relative;         /* needed for absolute arrow */
   display: flex;
@@ -89,7 +82,7 @@ body{
 }
 
 .title {
-  width:410px;             /* full width */
+  width:380px;             /* full width */
   display: flex;
   justify-content: center;    /* center the text horizontally */
   z-index: 1;                 /* below the arrow */
@@ -106,140 +99,95 @@ body{
   box-sizing: border-box;     /* ensures padding doesn’t break width */
 }
 
-.card-title{
+fieldset{
+  margin-bottom: 3%;
+}
+
+legend{
+  text-align: center;
   font-weight: bold;
+
 }
 
-img {
-  width: 2.5%;
-  min-width: 25px;
-  height: auto;
-}
-
-.status-inner-card{
-  margin-left: 16px;
-  margin-right: 16px;
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-}
-
-.detail-card{
-  margin: 5px;
-  padding: 5px;
-  background-color: var(--box-color);
-}
-
-.detail-card p{
-  margin-top: 0px;
-}
-
-.verification-details p,
-.update-details p,
-.impact-details p,
-.status-details p{
-  display: flex;
-  justify-content: center;
-  margin-bottom: 4px;
-}
-
-.details-inner-card {
-  margin-left: 16px;
-  margin-right: 16px;
+.question-row{
   display: grid;
   grid-template-columns: 50% 50%;
-}
-.location-detail p{
-  margin-bottom: 0px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.location-detail,
-.situations-detail,
-.accessibility-detail,
-.accessibility-detail{
+.question-row p{
+  margin: 0;
+}
+
+.options{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: start;
+}
+
+.comment-input{
+
+  width: 100%;       /* starting height */
+  resize: none;      
+  font-size: 16px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow-y: hidden;  
+}
+
+.submit-button{
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-top: 8%;
 }
 
-ul{
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.map-link{
-  display: flex;
-  justify-content: end;
-}
-.action-inner-card,
-.review-inner-card{
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  background-color: var(--box-color);
-}
-
-.action-inner-card p
-.review-inner-card p{
-  margin-top: 0px;
-}
-
-.review-button{
-  height: 40px;
-  width: 10dvh;
+.submit-button button{
+  height: 32px;
+  width: 40dvh;
   border: none;
   border-radius: 10px;
   background-color: var(--inner-button-color);
   color: white;
   font-size: 15px;
+  cursor: pointer;
 }
-
-.centered{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 /* ---------- MOBILE ---------- */
 
 @media (max-width: 600px){
-  .main-container{ 
+  .main-container{
     padding: 0px;
   }
-
   .inner-container{
     flex: 1; 
     background-color: var(--container-color);
     padding: 15px;
     display: block;
-    margin-top: 0px;
     border-radius: 0px;
   }
-  
   .title p {
     width: 100%;
     padding: 10px 20px;       /* smaller padding on mobile */
   }
+
   .arrow{
     display: none;
   }
-
-  .status-inner-card,
-  .details-inner-card{
+  .question-row{
     display: block;
-    margin-left: 0px;
-    margin-right: 0px;
   }
 
-  .action-inner-card,
-  .review-inner-card{
-    margin-top: 0px;
-    margin-bottom: 5px;
-    margin-left: 4px;
-    margin-right: 4px;
+  .question-row p{
+    margin: 0;
   }
 
-  .card-title{
+  .options{
     display: block;
+  }
+   .options label{
+    display: block;  
+    margin-top: 5px;     
   }
 }
 
