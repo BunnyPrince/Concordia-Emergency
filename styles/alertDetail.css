@@ -82,7 +82,17 @@ body{
 }
 
 
-.inner-card{
+.card-title{
+  font-weight: bold;
+}
+
+img {
+  width: 2.5%;
+  min-width: 25px;
+  height: auto;
+}
+
+.status-inner-card{
   margin-left: 16px;
   margin-right: 16px;
   display: grid;
@@ -99,11 +109,70 @@ body{
   margin-top: 0px;
 }
 
-.verification-details p{
+.verification-details p,
+.update-details p,
+.impact-details p,
+.status-details p{
   display: flex;
   justify-content: center;
-  /* padding-bottom: 0px; */
   margin-bottom: 4px;
+}
+
+.details-inner-card {
+  margin-left: 16px;
+  margin-right: 16px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.location-detail p{
+  margin-bottom: 0px;
+}
+
+.location-detail,
+.situations-detail,
+.accessibility-detail,
+.accessibility-detail{
+  display: flex;
+  justify-content: center;
+}
+
+ul{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.map-link{
+  display: flex;
+  justify-content: end;
+}
+.action-inner-card,
+.review-inner-card{
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  background-color: var(--box-color);
+}
+
+.action-inner-card p
+.review-inner-card p{
+  margin-top: 0px;
+}
+
+.review-button{
+  height: 40px;
+  width: 10dvh;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--inner-button-color);
+  color: white;
+  font-size: 15px;
+}
+
+.centered{
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* ---------- MOBILE ---------- */
@@ -113,6 +182,25 @@ body{
     flex: 1; 
     background-color: var(--container-color);
     padding: 15px;
+    display: block;
+  }
+
+  .status-inner-card,
+  .details-inner-card{
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .action-inner-card,
+  .review-inner-card{
+    margin-top: 0px;
+    margin-bottom: 5px;
+    margin-left: 4.5px;
+    margin-right: 4.5px;
+  }
+
+  .card-title{
     display: block;
   }
 }
