@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up page</title>
+    <link rel="stylesheet" href="../../styles/hazardsPages/protest.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='../../homepage.html'">Home</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="outer-progress-bar">
+          <div class="progress-bar">
+            <progress id="formProgress" value="2" max="3"></progress> 
+          </div>
+        </div>
+        
+
+        <div class="title">
+          <p>Protest</p>
+        </div>
+
+        <div class="input-container">
+          <div class="input-outer-container">
+            <form>
+              <fieldset>
+                <legend>Location Details</legend>
+                <div class="question-row">
+                  <p>Intersection Street 1</p> 
+                  <div class="input-wrapper ">
+                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                  </div>
+
+                  <p>Intersection Street 2</p> 
+                  <div class="input-wrapper">
+                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                  </div>
+                  
+                  <div class="dropdown building-container">
+                    <label for="building">Building</label>
+                    <select id="building" name="building">
+                      <option value="">Select an option</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="dropdown-fieldset">
+                <legend>Incident Details</legend>
+
+                <div class="question-row">
+                  <p>Current Situation:</p>
+                  <div class="options">
+                    <label>
+                    <input type="checkbox" name="situation" value="fully blocked">
+                      Fully blocked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="situation" value="partially blocked">
+                      Partially blocked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="situation" value="loud passable">
+                      Loud but passable
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="situation" value="police presence">
+                      Police presence
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="situation" value="physical confrontation">
+                      Physical confrontation
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="situation" value="property damage">
+                      Property damage
+                    </label>
+                  </div>
+                  
+                  <div class="question-row">
+                  <p>Mobility Impact:</p>
+                  <div class="options">
+                    <label>
+                    <input type="checkbox" name="mobility" value="wheelchair access blockedd">
+                      Wheelchair access blocked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="mobility" value="sidewalk blocked">
+                      Sidewalk blocked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="mobility" value="stair-only detours">
+                      Stair-only detours
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="mobility" value="acceddible entrance closed">
+                      Acceddible entrance closed
+                    </label>
+                  </div>
+
+                  <div class="dropdown building-container">
+                    <label for="intensity">Intensity Level</label>
+                    <select id="intensity" name="intensity">
+                      <option value="">Select an option</option>
+                      <option value="calm gathering">Calm gathering</option>
+                      <option value="loud / high noise">Loud / High noise</option>
+                      <option value="aggressive / unsafe feeling">Aggressive / Unsafe feeling</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+               <fieldset>
+                <legend>(option)</legend>
+                <div class="question-row upload-container">
+                  <p>Upload Photo</p> 
+                  <div class="options">
+                    <input type="file" id="photo" name="photo" accept="image/*" multiple>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+
+            <div class="back-forward">
+              <img src="../../images/arrow-left-solid.png" alt="profile icon"
+                onclick="window.location.href='../report.html'">
+              <img src="../../images/arrow-right-solid.png" alt="profile icon"
+                 onclick="window.location.href='confirmation.html'">
+            </div>
+          </div>
+          
+          
+        </div>
+
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../../scripts/hazardsPages/protest.js"></script>
+    <script></script>
+  </body>
+</html>

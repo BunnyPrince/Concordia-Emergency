@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up page</title>
+    <link rel="stylesheet" href="../styles/report.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='../homepage.html'">Home</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="outer-progress-bar">
+          <div class="progress-bar">
+            <progress id="formProgress" value="1" max="3"></progress> 
+          </div>
+        </div>
+
+        <div class="title">
+          <p>Hazard Type</p>
+        </div>
+
+        <div class="input-container">
+          
+          <div class="type-container">
+            <button class="type-button protest-js"
+              onclick="window.location.href='hazardsPages/protest.html'">
+              Protest
+            </button>
+            <button class="type-button construction-js"
+              onclick="window.location.href='hazardsPages/construction.html'">
+              Contruction
+            </button>
+            <button class="type-button weather-js"
+              onclick="window.location.href='hazardsPages/weather.html'">
+              Weather Hazard
+            </button>
+            <button class="type-button elevator-js"
+              onclick="window.location.href='hazardsPages/elevator.html'">
+              Elevator Malfunction
+            </button>
+            <button class="type-button other-button other-js"
+              onclick="window.location.href='hazardsPages/other.html'">
+              Others
+            </button>
+          </div>
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../scripts/report.js"></script>
+    <script></script>
+  </body>
+</html>

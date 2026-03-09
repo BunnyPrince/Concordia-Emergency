@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up page</title>
+    <link rel="stylesheet" href="../../styles/hazardsPages/elevator.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='../../homepage.html'">Home</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="outer-progress-bar">
+          <div class="progress-bar">
+            <progress id="formProgress" value="2" max="3"></progress> 
+          </div>
+        </div>
+        
+
+        <div class="title">
+          <p>Elevator Malfunction</p>
+        </div>
+
+        <div class="input-container">
+          <div class="input-outer-container">
+            <form>
+              <fieldset>
+                <legend>Location Details</legend>
+                <div class="question-row">
+                  
+                  <div class="dropdown building-container">
+                    <label for="building">Building</label>
+                    <select id="building" name="building">
+                      <option value="">Select an option</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="dropdown-fieldset">
+                <legend>Incident Details</legend>
+
+                <div class="question-row">
+                  <div class="question-row">
+                  <p>Floors Affected:</p>
+                  <div class="options">
+                    <label>
+                    <input type="checkbox" name="floors" value="cannot access upper floors">
+                      Cannot access upper floors
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="floors" value="cannot access basement">
+                      Cannot access basement
+                    </label>
+                  </div>
+
+                  <div class="dropdown building-container">
+                    <label for="status">Elevator Status</label>
+                    <select id="status" name="status">
+                      <option value="">Select an option</option>
+                      <option value="not working at all">Not working at all</option>
+                      <option value="stuck between floors">Stuck between floors</option>
+                      <option value="long wait time">Long wait time</option>
+                      <option value="door malfunction">Door malfunction</option>
+                    </select>
+                  </div>
+
+                  <div class="dropdown building-container">
+                    <label for="alternative">Alternative Access Available</label>
+                    <select id="alternative" name="alternative">
+                      <option value="">Select an option</option>
+                      <option value="no alternative">No alternative</option>
+                      <option value="ramp available">Ramp available</option>
+                      <option value="another elevator working">Another elevator working</option>
+                    </select>
+                  </div>
+
+                  <div class="dropdown building-container">
+                    <label for="urgency">Urgency</label>
+                    <select id="urgency" name="urgency">
+                      <option value="">Select an option</option>
+                      <option value="temporary issue">Temporary issue</option>
+                      <option value="emergency">Emergency</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+               <fieldset>
+                <legend>(option)</legend>
+                <div class="question-row upload-container">
+                  <p>Upload Photo</p> 
+                  <div class="options">
+                    <input type="file" id="photo" name="photo" accept="image/*" multiple>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+
+            <div class="back-forward">
+              <img src="../../images/arrow-left-solid.png" alt="profile icon"
+                onclick="window.location.href='../report.html'">
+              <img src="../../images/arrow-right-solid.png" alt="profile icon"
+                 onclick="window.location.href='confirmation.html'">
+            </div>
+          </div>
+          
+          
+        </div>
+
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../../scripts/hazardsPages/elevator.js"></script>
+    <script></script>
+  </body>
+</html>
