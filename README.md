@@ -1,5 +1,9 @@
 # Concordia-Emergency-Website- Task List
 
+## IMPORTANT
+- Use the assigned branch for all work.
+- When writing JS, **add a class with `-js` at the end**. Do not change existing classes, only add a new one.
+  - Example: `<div class="something-for-css something-js"></div>`
 ---
 
 ## Map
