@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign Up page</title>
+    <link rel="stylesheet" href="../../styles/hazardsPages/construction.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+     <!-- Header -->
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='../../homepage.html'">Home</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <div class="inner-container">
+        <div class="outer-progress-bar">
+          <div class="progress-bar">
+            <progress id="formProgress" value="2" max="3"></progress> 
+          </div>
+        </div>
+        
+
+        <div class="title">
+          <p>Construction</p>
+        </div>
+
+        <div class="input-container">
+          <div class="input-outer-container">
+            <form>
+              <fieldset>
+                <legend>Location Details</legend>
+                <div class="question-row">
+                  <p>Intersection Street 1</p> 
+                  <div class="input-wrapper ">
+                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                  </div>
+
+                  <p>Intersection Street 2</p> 
+                  <div class="input-wrapper">
+                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+                  </div>
+                  
+                  <div class="dropdown building-container">
+                    <label for="building">Building</label>
+                    <select id="building" name="building">
+                      <option value="">Select an option</option>
+                    </select>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="dropdown-fieldset">
+                <legend>Incident Details</legend>
+
+                
+
+                <div class="question-row">
+                  <div class="dropdown building-container">
+                    <label for="issue">Type of Issue</label>
+                    <select id="issue" name="issue">
+                      <option value="">Select an option</option>
+                      <option value="sidewalk closed">Sidewalk closed</option>
+                      <option value="road closed">Road closed</option>
+                      <option value="entrance closed">Entrance closed</option>
+                      <option value="elevator temporarily unavailable">Elevator temporarily unavailable</option>
+                      <option value="loud drilling">Loud drilling</option>
+                    </select>
+                  </div>
+
+                  <div class="dropdown building-container">
+                    <label for="duration">Estimated Duration</label>
+                    <select id="duration" name="duration">
+                      <option value="">Select an option</option>
+                      <option value="today only">Today only</option>
+                      <option value="this week">This week</option>
+                      <option value="long-term">Long-term</option>
+                    </select>
+                  </div>
+
+                  <p>Accessibility Impact:</p>
+                  <div class="options">
+                    <label>
+                    <input type="checkbox" name="accessibility" value="ramp bloacked">
+                      Ramp bloacked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="accessibility" value="accessibility entrance blocked">
+                      Accessibility entrance blocked
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="accessibility" value="detour required">
+                      Detour required
+                    </label>
+
+                    <label>
+                      <input type="checkbox" name="accessibility" value="uneven ground / debris">
+                      Uneven ground / debris
+                    </label>
+                  </div>
+
+                </div>
+
+                
+                  
+                
+              </fieldset>
+
+               <fieldset>
+                <legend>(option)</legend>
+                <div class="question-row upload-container">
+                  <p>Upload Photo</p> 
+                  <div class="options">
+                    <input type="file" id="photo" name="photo" accept="image/*" multiple>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+
+            <div class="back-forward">
+              <img src="../../images/arrow-left-solid.png" alt="profile icon"
+                onclick="window.location.href='../report.html'">
+              <img src="../../images/arrow-right-solid.png" alt="profile icon"
+                 onclick="window.location.href='confirmation.html'">
+            </div>
+          </div>
+          
+          
+        </div>
+
+        
+      </div>
+    </div>
+    
+    <script type="module" src="../../scripts/hazardsPages/construction.js"></script>
+    <script></script>
+  </body>
+</html>
