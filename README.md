@@ -17,7 +17,7 @@
 ---
 
 ## Alert
-**Assigned to:** *(name placeholder)*  
+**Assigned to:** *Md Mridul Hossain*  
 **Tasks:**
 - Fill dynamic alerts (`pages/alertHistory.html`)
 - Create alert database (`data/` folder)
