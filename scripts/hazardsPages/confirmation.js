@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const okBtn = document.getElementById("popupOkBtn");
 
   submitBtn.addEventListener("click", () => {
+    // Save the data to reports
+    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    reports.push(data);
+    localStorage.setItem("reports", JSON.stringify(reports));
+
     localStorage.removeItem("report");
     popup.style.display = "flex";
   });
