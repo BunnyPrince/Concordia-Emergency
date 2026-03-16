@@ -33,6 +33,12 @@
               <fieldset>
                 <legend>Location Details</legend>
                 <div class="question-row">
+                  <div class="dropdown building-container">
+                    <label for="building">Building</label>
+                    <select id="building" name="building">
+                      <option value="">Select an option</option>
+                    </select>
+                  </div>
                   <p>Intersection Street 1</p> 
                   <div class="input-wrapper ">
                     <input type="text" id="street1" placeholder="street" name="Intersection">
@@ -41,15 +47,8 @@
 
                   <p>Intersection Street 2</p> 
                   <div class="input-wrapper">
-                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <input type="text" id="street2" placeholder="street" name="Intersection">
                     <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
-                  </div>
-                  
-                  <div class="dropdown building-container">
-                    <label for="building">Building</label>
-                    <select id="building" name="building">
-                      <option value="">Select an option</option>
-                    </select>
                   </div>
                 </div>
               </fieldset>
@@ -78,7 +77,7 @@
               </fieldset>
 
                <fieldset>
-                <legend>(option)</legend>
+                <legend>(optional)</legend>
                 <div class="question-row upload-container">
                   <p>Upload Photo</p> 
                   <div class="options">
@@ -89,9 +88,9 @@
             </form>
 
             <div class="back-forward">
-              <img src="../../images/arrow-left-solid.png" alt="profile icon"
+              <img src="../../images/arrow-left-solid.png" alt="profile icon" id="back"
                 onclick="window.location.href='../report.html'">
-              <img src="../../images/arrow-right-solid.png" alt="profile icon"
+              <img src="../../images/arrow-right-solid.png" alt="profile icon" id="forward"
                  onclick="window.location.href='confirmation.html'">
             </div>
           </div>
