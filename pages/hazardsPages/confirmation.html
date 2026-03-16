@@ -29,15 +29,23 @@
 
         <div class="input-container">
           <div class="input-outer-container">
-            <div class="form-details-js">
+            <div class="form-details-js" id="detail">
             </div>
             <div class="submit-button">
-              <button type="submit">Submit</button>
+              <button type="submit" id="submitBtn">Submit</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="successPopup" class="popup-overlay">
+      <div class="popup-box">
+        <p>Submission successful!</p>
+        <button id="popupOkBtn">OK</button>
+      </div>
+    </div>
+
     
     <script type="module" src="../../scripts/hazardsPages/confirmation.js"></script>
     <script></script>
