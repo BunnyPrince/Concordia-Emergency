@@ -19,6 +19,7 @@ document.getElementById("forward").addEventListener("click", function () {
     const photoFiles = Array.from(photoInput.files).map(file => file.name);
 
     const data = {
+        "Hazard Type": "Elevator",
         "Building": document.getElementById("building").value,
         "Floors Affected": floor,
         "Elevator Status": document.getElementById("status").value,
