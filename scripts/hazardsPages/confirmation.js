@@ -22,9 +22,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const okBtn = document.getElementById("popupOkBtn");
 
   submitBtn.addEventListener("click", () => {
+    
+    const getDetails = (data) => {
+      const details = {};
+      const commonKeys = ["Hazard Type", "Building", "Intersection Street 1", "Intersection Street 2"];
+      Object.keys(data).forEach(key => {
+        if (!commonKeys.includes(key)) {
+          details[key] = data[key];
+        }
+      });
+      return details;
+    };
+
     // Save the data to reports
     const reports = JSON.parse(localStorage.getItem("reports") || "[]");
-    reports.push(data);
+    const existingIndex = reports.findIndex(r => 
+      r["Hazard Type"] === data["Hazard Type"] && 
+      r["Building"] === data["Building"] && 
+      r["Intersection Street 1"] === data["Intersection Street 1"] && 
+      r["Intersection Street 2"] === data["Intersection Street 2"]
+    );
+    if (existingIndex !== -1) {
+      reports[existingIndex]["information"].push(getDetails(data));
+      reports[existingIndex]["reported number"] += 1;
+    } else {
+      const common = {
+        "Hazard Type": data["Hazard Type"],
+        "Building": data["Building"],
+        "Intersection Street 1": data["Intersection Street 1"],
+        "Intersection Street 2": data["Intersection Street 2"],
+        "Reported Number": 1,
+        "Detail": [getDetails(data)]
+      };
+      reports.push(common);
+    }
     localStorage.setItem("reports", JSON.stringify(reports));
 
     localStorage.removeItem("report");
