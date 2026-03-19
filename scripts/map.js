@@ -86,7 +86,7 @@ export function initLocationFeatures(map) {
       const dist = map.distance([userLat, userLng], [alert.location.lat, alert.location.lng]);
       if (dist < 50 && !notifiedAlerts.has(alert.id)) {
         notifiedAlerts.add(alert.id);
-        const popup = L.popup()
+        L.popup({ autoClose: false, closeOnClick: false })
           .setLatLng([alert.location.lat, alert.location.lng])
           .setContent(`
             <b>⚠️ Hazard Nearby!</b><br>
