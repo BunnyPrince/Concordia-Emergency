@@ -1,3 +1,15 @@
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+if (currentUser) {
+  window.addEventListener('load', () => {
+    if (document.querySelector(".username-js")) {
+        document.querySelector(".username-js").textContent = currentUser.name;
+    }
+    if (document.querySelector(".user-email-js")) {
+        document.querySelector(".user-email-js").textContent = currentUser.email;
+    }
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
@@ -168,7 +180,10 @@ function editQuitetHours() {
 
 
 function saveSafety() {
-  let selectedItem = ["Wheelchair User","Avoid Stairs"];
+  const checkboxes = document.querySelectorAll('#accessibility-form input[name="accessibility"]:checked');
+  let selectedItem = Array.from(checkboxes).map(cb => cb.value);
+  
+  if (selectedItem.length === 0) selectedItem = ["None Selected"];
 
   let htmlContente = '';
   selectedItem.forEach((item) => {
@@ -187,21 +202,20 @@ function saveSafety() {
 }
 
 function saveNavigation() {
+  const routeVal = document.getElementById('route').value || "Not Set";
+  const elevatorVal = document.getElementById('elevator').value || "Not Set";
+  const textVal = document.getElementById('text').value || "Not Set";
+  const colorVal = document.getElementById('color').value || "Not Set";
+
   document.querySelector('.navigation-inner-card-js').innerHTML = `
     <div class="navigation-display-card">
-      <p>Route Preference: </p>
-      <p>Fastest Route</p>
-      <p>Elevator Preference: </p>
-      <p>Prioritize Elevator</p>
-      <p>Text Size: </p>
-      <p>Medium</p>
-      <p>Color Mode: </p>
-      <p>High Contrast</p>
+      <p>Route Preference: </p><p>${routeVal}</p>
+      <p>Elevator Preference: </p><p>${elevatorVal}</p>
+      <p>Text Size: </p><p>${textVal}</p>
+      <p>Color Mode: </p><p>${colorVal}</p>
     </div>
+    <div class="edit-card navigation-edit-js"><img src="../images/edit.png"></div>`;
     
-    <div class="edit-card navigation-edit-js">
-      <img src="../images/edit.png" alt="profile icon">
-    </div>`;
   document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
 }
 
