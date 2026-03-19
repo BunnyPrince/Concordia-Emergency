@@ -27,7 +27,7 @@
 ---
 
 ## Account
-**Assigned to:** Renren
+**Assigned to:** *Renren*
 **Tasks:**
 - Complete login/signup
 - Fill and edit profile dynamically
