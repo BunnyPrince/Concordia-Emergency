@@ -26,13 +26,13 @@ export function initMap() {
 
   // Building markers
   buildings.forEach(b => {
-    L.circleMarker([b.lat, b.lng], {
-      radius: 6,
-      fillColor: '#cdbcf1',
-      color: '#7a5fc0',
-      weight: 1,
-      fillOpacity: 0.8
-    }).addTo(map).bindPopup(`<b>${b.code}</b><br>${b.buildingName}`);
+    const buildingIcon = L.icon({
+      iconUrl: 'images/concordia-logo.png',
+      iconSize: [16, 16]
+    });
+    L.marker([b.lat, b.lng], { icon: buildingIcon })
+      .addTo(map)
+      .bindPopup(`<b>${b.code}</b><br>${b.buildingName}`);
   });
 
   // Alert markers

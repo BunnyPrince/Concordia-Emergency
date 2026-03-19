@@ -314,3 +314,14 @@ body{
   border: 2px solid white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
+
+/* Building Marker */
+.building-marker-js {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  filter: hue-rotate(200deg) saturate(2);
+}
