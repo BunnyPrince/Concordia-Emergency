@@ -7,7 +7,7 @@
 ---
 
 ## Map
-**Assigned to:** *(name placeholder)*  
+**Assigned to:** *Yu-hang Lin*  
 **Tasks:**
 - Homepage map
 - Homepage map legend
