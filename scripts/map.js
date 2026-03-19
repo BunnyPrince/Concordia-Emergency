@@ -10,7 +10,7 @@ const alertColors = {
 };
 
 const alertIcons = {
-  'Protest': '✊',
+  'Protest': '🚨',
   'Construction': '🚧',
   'Elevator Malfunction': '🛗',
   'Weather Hazard': '🌧️',
