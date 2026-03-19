@@ -137,12 +137,19 @@ img {
 }
 .logOut{
   height: 40px;
-  width: 10dvh;
-  border: none;
-  border-radius: 10px;
-  background-color: var(--inner-button-color);
-  color: white;
+  padding: 0 20px;
+  border: 2px solid var(--button-color);
+  border-radius: 4px;
+  background-color: white;
+  color: var(--button-color);
   font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.logOut:hover{
+  background-color: var(--button-color);
+  color: white;
 }
 
 .setting-card{
