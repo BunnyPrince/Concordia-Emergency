@@ -168,7 +168,7 @@ function editQuitetHours() {
 
 
 function saveSafety() {
-  let selectedItem = ["Weelchair User","Avoid Stairs"];
+  let selectedItem = ["Wheelchair User","Avoid Stairs"];
 
   let htmlContente = '';
   selectedItem.forEach((item) => {
