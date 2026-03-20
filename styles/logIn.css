@@ -10,9 +10,9 @@ body{ margin:0; height:100%; }
 /* Header */
 .header{ display:flex; flex-direction:column; background:white; border-bottom:1px solid #eee; }
 .header-top{ display:flex; justify-content:space-between; align-items:center; padding:4px 30px; background:white; border-bottom:1px solid #eee; }
-.header-bottom{ background:var(--header-color); padding:20px 30px; display:flex; align-items:center; }
+.header-bottom{ background:var(--header-color); padding:20px 30px; display:flex; align-items:center; justify-content:flex-start; }
 .crisis{ color:var(--text-light); font-weight:700; font-size:22px; font-family:"Montserrat",sans-serif; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
-.logo{ padding:10px; background:white; display:flex; align-items:center; }
+.logo{ padding:10px; background:white; display:flex; align-items:center; justify-content:flex-start; }
 .logo img{ height:35px; object-fit:contain; }
 .auth-buttons{ display:flex; background:white; margin-left:auto; align-items:center; }
 .signup{ background:var(--header-color); color:var(--text-light); cursor:pointer; padding:8px 20px; font-weight:bold; transition:all 0.2s; }
