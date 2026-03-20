@@ -1,22 +1,27 @@
-let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+import { logout, checkAuth } from './auth.js';
 
-if (currentUser) {
-  window.addEventListener('load', () => {
-    if (document.querySelector(".username-js")) {
-        document.querySelector(".username-js").textContent = currentUser.name;
-    }
-    if (document.querySelector(".user-email-js")) {
-        document.querySelector(".user-email-js").textContent = currentUser.email;
-    }
-  });
-}
+const currentUser = checkAuth();
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
-  document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
-  document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
-  document.querySelector(".quitet-hours-edit-js").addEventListener("click", editQuitetHours);
-})
+    if (currentUser) {
+        if (document.querySelector(".username-js")) {
+            document.querySelector(".username-js").textContent = currentUser.name;
+        }
+        if (document.querySelector(".user-email-js")) {
+            document.querySelector(".user-email-js").textContent = currentUser.email;
+        }
+    }
+
+    const logoutBtn = document.querySelector('.logOut-js');
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", logout);
+    }
+
+    document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
+    document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
+    document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
+    document.querySelector(".quitet-hours-edit-js").addEventListener("click", editQuitetHours);
+});
 
 
 function editSafety() {
@@ -176,8 +181,6 @@ function editQuitetHours() {
   
   document.querySelector(".quitet-hours-button-js").addEventListener("click", saveQuitetHours);
 }
-
-
 
 function saveSafety() {
   const checkboxes = document.querySelectorAll('#accessibility-form input[name="accessibility"]:checked');
