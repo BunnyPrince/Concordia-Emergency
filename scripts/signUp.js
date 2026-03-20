@@ -1,3 +1,5 @@
+import { users } from '../data/profileData.js';
+
 function togglePassword(link) {
   const password = document.getElementById(link);
   const icon = document.querySelector(`.show-${link}-js`);
@@ -11,10 +13,44 @@ function togglePassword(link) {
   }
 }
 
+function handleSignUp(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!username || !password) {
+        alert("Please fill in all fields!");
+        return;
+    }
+
+    const newUser = {
+        id: Date.now().toString(), 
+        username: username,
+        password: password,
+        name: username, 
+        email: email,
+        role: "Student"
+    };
+
+    let allUsers = JSON.parse(localStorage.getItem('allUsers')) || users;
+    allUsers.push(newUser);
+    localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+    alert("Sign up successful! Please log in.");
+    window.location.href = 'logIn.html'; 
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const passwordBtn = document.querySelector(".show-password-js");
   passwordBtn.addEventListener("click",() =>  togglePassword('password'));
   
   const reEnterPasswordBtn = document.querySelector(".show-re-enter-password-js");
   reEnterPasswordBtn.addEventListener("click",() =>  togglePassword('re-enter-password'));
+
+  const signUpBtn = document.querySelector(".signUp-js"); // 确保你的 HTML 里按钮类名是这个
+  if (signUpBtn) {
+    signUpBtn.addEventListener("click", handleSignUp);
+  }
 })

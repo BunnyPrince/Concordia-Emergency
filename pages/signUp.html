@@ -17,7 +17,7 @@
     <div class="main-container">
       <div class="inner-container">
         <div class="title">
-          <p>Sing Up</p>
+          <p>Sign Up</p>
         </div>
 
         <div class="input-container">
@@ -31,6 +31,16 @@
             </div>
           </div>
           
+          <div class="outer-email-container">
+            <div class="email-container">
+              <label for="email">Email</label>
+              <div class="input-wrapper input-wrapper-email">
+                <input type="email" id="email" placeholder="email">
+                <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
+              </div>
+            </div>
+          </div>
+
           <div class="outer-password-container">
             <div class="password-container">
               <label for="password">Password</label>

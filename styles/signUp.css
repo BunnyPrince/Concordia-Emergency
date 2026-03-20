@@ -92,6 +92,7 @@ body{
 
 .username-container,
 .password-container,
+.email-container,
 .re-enter-password-container{
   width: 400px;
   background-color: #e6e0ee;
@@ -100,14 +101,18 @@ body{
 .outer-username-container{
   margin-top: 10%;
 }
+
+.outer-email-container {
+  margin-top: 5%; 
+}
+
 .outer-password-container{
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 .outer-re-enter-password-container{
   margin-top: 5%;
 }
-
 
 
 .input-container label {
@@ -116,6 +121,7 @@ body{
 }
 
 .input-wrapper-username,
+.input-wrapper-email,
 .input-wrapper-password,
 .input-wrapper-re-enter-password {
   position: relative;
@@ -127,6 +133,7 @@ body{
 }
 
 .input-wrapper-username input,
+.input-wrapper-email input,
 .input-wrapper-password input,
 .input-wrapper-re-enter-password input {
   border: none;
@@ -223,6 +230,7 @@ body{
   }
   
   .outer-username-container,
+  .input-wrapper-email,
   .outer-password-container,
   .outer-re-enter-password-container {
     width: 100%;   
@@ -231,6 +239,7 @@ body{
   }
 
   .username-container,
+  .input-wrapper-email,
   .password-container,
   .re-enter-password-container {
     width: 300px; 

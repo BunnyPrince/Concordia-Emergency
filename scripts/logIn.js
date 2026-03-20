@@ -19,14 +19,14 @@ function handleLogin(event) {
     const usernameInput = document.getElementById("username").value;
     const passwordInput = document.getElementById("password").value;
 
-    const user = users.find(u => u.username === usernameInput && u.password === passwordInput);
+    const allUsers = JSON.parse(localStorage.getItem('allUsers')) || users;
+    const user = allUsers.find(u => u.username === usernameInput && u.password === passwordInput);
 
     if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
-        alert('Login successful! Redirecting...');
-        window.location.href = 'profile.html'; 
+        window.location.href = 'profile.html';
     } else {
-        alert('Invalid username or password. Hint: Try John / 123');
+        alert("Invalid username or password.");
     }
 }
 
