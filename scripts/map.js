@@ -37,7 +37,17 @@ export function initMap() {
   });
 
   // Alert markers
+  const alertPrefs = JSON.parse(localStorage.getItem('alertPrefs') || '{}');
+  const typeMap = {
+    'Protest': 'protest',
+    'Construction': 'construction',
+    'Weather Hazard': 'weather',
+    'Elevator Malfunction': 'elevator',
+    'Others': 'others'
+  };
   alerts.forEach(alert => {
+    const prefKey = typeMap[alert.type];
+    if (prefKey && alertPrefs[prefKey] === false) return;
     const color = alertColors[alert.type] || '#7f8c8d';
     const icon = alertIcons[alert.type] || '⚠️';
 

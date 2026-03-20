@@ -2,6 +2,16 @@ import { logout, checkAuth } from './auth.js';
 
 const currentUser = checkAuth();
 
+// Apply saved settings on load
+function applySettings() {
+  const textSize = localStorage.getItem('textSize');
+  if (textSize === 'small') document.body.style.fontSize = '12px';
+  else if (textSize === 'large') document.body.style.fontSize = '20px';
+  else document.body.style.fontSize = '16px';
+}
+applySettings();
+
+
 document.addEventListener("DOMContentLoaded", () => {
     if (currentUser) {
         if (document.querySelector(".username-js")) {
@@ -209,6 +219,11 @@ function saveNavigation() {
   const elevatorVal = document.getElementById('elevator').value || "Not Set";
   const textVal = document.getElementById('text').value || "Not Set";
   const colorVal = document.getElementById('color').value || "Not Set";
+  
+  // Save to localStorage
+  localStorage.setItem('textSize', textVal);
+  localStorage.setItem('colorMode', colorVal);
+  applySettings();
 
   document.querySelector('.navigation-inner-card-js').innerHTML = `
     <div class="navigation-display-card">
@@ -223,6 +238,14 @@ function saveNavigation() {
 }
 
 function saveNotification() {
+  // Save notification preferences
+  const prefs = {
+    protest: document.getElementById('protest-alert') ? document.getElementById('protest-alert').checked : true,
+    construction: document.querySelectorAll('#notification-form input[type=checkbox]')[1]?.checked ?? true,
+    weather: document.querySelectorAll('#notification-form input[type=checkbox]')[2]?.checked ?? true,
+    elevator: document.querySelectorAll('#notification-form input[type=checkbox]')[3]?.checked ?? true,
+  };
+  localStorage.setItem('alertPrefs', JSON.stringify(prefs));
   document.querySelector('.notification-inner-card-js').innerHTML = `
     <div class="notification-display-card">
       <p>Emergency Alert</p>
