@@ -43,7 +43,7 @@ function buildValhallaRouter(alertList) {
       const locations = waypoints.map(wp => ({
         lon: wp.latLng.lng, lat: wp.latLng.lat
       }));
-      const d = 0.0003; // ~30m radius square
+      const d = 0.0005; // ~50m radius square
       const excludePolygons = alertList
         .filter(a => a.status === 'ACTIVE')
         .map(a => [
@@ -172,7 +172,7 @@ export function initLocationFeatures(map) {
   map.on('click', (e) => {
     navigator.geolocation.getCurrentPosition((pos) => {
       if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
-      const d = 0.0003;
+      const d = 0.0005;
       const excludePolygons = alerts
         .filter(a => a.status === 'ACTIVE')
         .map(a => [
@@ -199,7 +199,7 @@ export function initLocationFeatures(map) {
         if (data.error) return;
         const coords = decodePolyline(data.trip.legs[0].shape);
         routingControl = L.polyline(coords.map(c => [c[0], c[1]]), {
-          color: '#912338', weight: 5, opacity: 0.85
+          color: '#0ABAB5', weight: 5, opacity: 0.85
         }).addTo(map);
       });
     });
@@ -271,7 +271,7 @@ export function addDestinationSearch(map) {
       })
     }).addTo(map).bindPopup(`<b>Destination</b><br><small>${dest.label}</small>`).openPopup();
 
-    const d = 0.0003;
+    const d = 0.0005;
     const excludePolygons = alerts
       .filter(a => a.status === 'ACTIVE')
       .map(a => [
@@ -300,7 +300,7 @@ export function addDestinationSearch(map) {
       if (data.error) throw new Error(data.error);
       const coords = decodePolyline(data.trip.legs[0].shape);
       routingControl = L.polyline(coords.map(c => [c[0], c[1]]), {
-        color: '#912338', weight: 5, opacity: 0.85
+        color: '#0ABAB5', weight: 5, opacity: 0.85
       }).addTo(map);
       map.fitBounds(routingControl.getBounds(), { padding: [40, 40] });
       setStatus('✅ Route set!');
