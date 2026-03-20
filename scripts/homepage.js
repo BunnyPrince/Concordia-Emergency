@@ -1,4 +1,4 @@
-import { initMap, initLocationFeatures } from "./map.js";
+import { initMap, initLocationFeatures, addDestinationSearch } from "./map.js";
 import { isLoggedIn } from "../data/profileData.js";
 import {normalColors} from "../data/colors.js"
 
@@ -11,6 +11,7 @@ function toggleMenu() {
 document.addEventListener("DOMContentLoaded", () => {
   const map = initMap();
   initLocationFeatures(map);
+  addDestinationSearch(map);
   const menuBtn = document.querySelector(".mobile-menu");
   menuBtn.addEventListener("click", toggleMenu);
 

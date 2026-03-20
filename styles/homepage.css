@@ -421,3 +421,69 @@ body{
   background: #912338;
   color: white;
 }
+
+/* ─── Destination Search Control ─────────────────────────────────────────── */
+.ds-control {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  padding: 8px;
+  min-width: 260px;
+}
+
+.ds-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.ds-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: border 0.2s;
+}
+.ds-input:focus {
+  border-color: #912338;
+}
+
+.ds-btn {
+  padding: 7px 14px;
+  background: #912338;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ds-btn:hover   { background: #6b1a28; }
+.ds-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.ds-clear {
+  padding: 7px 10px;
+  background: none;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+.ds-clear:hover { border-color: #912338; color: #912338; }
+
+.ds-status {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #555;
+  min-height: 16px;
+}
+
+.ds-dest-pin {
+  font-size: 24px;
+  line-height: 1;
+}
