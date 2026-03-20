@@ -1,5 +1,19 @@
 import { users } from '../data/profileData.js';
 
+function getMergedUsers() {
+  const storedUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+  const merged = [...users];
+
+  storedUsers.forEach((storedUser) => {
+    const exists = merged.some((u) => u.username === storedUser.username);
+    if (!exists) {
+      merged.push(storedUser);
+    }
+  });
+
+  return merged;
+}
+
 function togglePassword() {
   const password = document.getElementById("password");
   const icon = document.querySelector(".show-password");
@@ -19,11 +33,12 @@ function handleLogin(event) {
     const usernameInput = document.getElementById("username").value;
     const passwordInput = document.getElementById("password").value;
 
-    const allUsers = JSON.parse(localStorage.getItem('allUsers')) || users;
-    const user = allUsers.find(u => u.username === usernameInput && u.password === passwordInput);
+  const allUsers = getMergedUsers();
+  const user = allUsers.find(u => u.username === usernameInput && u.password === passwordInput);
 
     if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('allUsers', JSON.stringify(allUsers));
         window.location.href = 'profile.html';
     } else {
         alert("Invalid username or password.");

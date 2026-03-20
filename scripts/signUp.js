@@ -1,5 +1,19 @@
 import { users } from '../data/profileData.js';
 
+function getMergedUsers() {
+  const storedUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+  const merged = [...users];
+
+  storedUsers.forEach((storedUser) => {
+    const exists = merged.some((u) => u.username === storedUser.username);
+    if (!exists) {
+      merged.push(storedUser);
+    }
+  });
+
+  return merged;
+}
+
 function togglePassword(link) {
   const password = document.getElementById(link);
   const icon = document.querySelector(`.show-${link}-js`);
@@ -17,12 +31,23 @@ function handleSignUp(event) {
     event.preventDefault();
 
     const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
+    const emailInput = document.getElementById("email");
+    const email = emailInput ? emailInput.value : "";
     const password = document.getElementById("password").value;
 
     if (!username || !password) {
         alert("Please fill in all fields!");
         return;
+    }
+
+    let allUsers = getMergedUsers();
+    const usernameExists = allUsers.some(
+      (u) => u.username.toLowerCase() === username.toLowerCase()
+    );
+
+    if (usernameExists) {
+      alert("Username already exists. Please choose another one.");
+      return;
     }
 
     const newUser = {
@@ -34,7 +59,6 @@ function handleSignUp(event) {
         role: "Student"
     };
 
-    let allUsers = JSON.parse(localStorage.getItem('allUsers')) || users;
     allUsers.push(newUser);
     localStorage.setItem('allUsers', JSON.stringify(allUsers));
 
