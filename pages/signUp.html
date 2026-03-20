@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Sign Up page</title>
+    <title>Sign Up — Concordia Emergency</title>
     <link rel="stylesheet" href="../styles/signUp.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-     <!-- Header -->
+    <!-- Header -->
     <div class="header">
-      <div class="crisis">!Crisis Mode!</div>
-      <div class="logo" onclick="window.location.href='../homepage.html'">LOGO</div>
+      <div class="header-top">
+        <div class="logo"><img src="../images/concordia-full-logo.svg" style="height:35px;"></div>
+        <div class="auth-buttons">
+          <div class="logIn" onclick="window.location.href='logIn.html'">Log In</div>
+        </div>
+        <div class="mobile-menu">&#9776;</div>
+      </div>
+      <div class="header-bottom">
+        <div class="crisis">!Crisis Mode!</div>
+      </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
       <div class="logIn" onclick="window.location.href='logIn.html'">Log In</div>
     </div>
 
     <!-- Main Container -->
     <div class="main-container">
       <div class="inner-container">
-        <div class="title">
-          <p>Sing Up</p>
-        </div>
+        <div class="top-bar"></div>
+        <div class="title"><p>Sign Up</p></div>
 
         <div class="input-container">
           <div class="outer-username-container">
@@ -30,14 +39,14 @@
               </div>
             </div>
           </div>
-          
+
           <div class="outer-password-container">
             <div class="password-container">
               <label for="password">Password</label>
               <div class="input-wrapper input-wrapper-password">
                 <input type="password" id="password" placeholder="password">
                 <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
-                <span class="show-password show-password-js" >👁</span>
+                <span class="show-password show-password-js">&#128065;</span>
               </div>
             </div>
           </div>
@@ -48,11 +57,11 @@
               <div class="input-wrapper input-wrapper-re-enter-password">
                 <input type="password" id="re-enter-password" placeholder="password">
                 <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
-                <span class="show-re-enter-password show-re-enter-password-js">👁</span>
+                <span class="show-re-enter-password show-re-enter-password-js">&#128065;</span>
               </div>
             </div>
           </div>
-          
+
           <div class="accessibility-container">
             <label for="accessibility">Accessibility Preferences</label>
             <select id="accessibility" name="accessibility">
@@ -68,10 +77,9 @@
         <div class="signUp-container">
           <button class="signUp signUp-js">Sign Up</button>
         </div>
-        
       </div>
     </div>
-    
+
     <script type="module" src="../scripts/signUp.js"></script>
     <script></script>
   </body>
