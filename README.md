@@ -7,7 +7,7 @@
 ---
 
 ## Map
-**Assigned to:** *Yu-hang Lin*  
+**Assigned to:** *(name placeholder)*  
 **Tasks:**
 - Homepage map
 - Homepage map legend
@@ -17,7 +17,7 @@
 ---
 
 ## Alert
-**Assigned to:** *Md Mridul Hossain*  
+**Assigned to:** *(name placeholder)*  
 **Tasks:**
 - Fill dynamic alerts (`pages/alertHistory.html`)
 - Create alert database (`data/` folder)
@@ -27,7 +27,7 @@
 ---
 
 ## Account
-**Assigned to:** *Renren*  
+**Assigned to:** *(name placeholder)*  
 **Tasks:**
 - Complete login/signup
 - Fill and edit profile dynamically
@@ -36,7 +36,7 @@
 ---
 
 ## Report
-**Assigned to:** Yuhao  
+**Assigned to:** *(name placeholder)*  
 **Tasks:**
 - Complete the hazard report form
 - Combine with alert database
