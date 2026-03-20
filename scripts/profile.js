@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
     document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
     document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
-    document.querySelector(".quitet-hours-edit-js").addEventListener("click", editQuitetHours);
+    document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
 });
 
 
@@ -120,7 +120,7 @@ function editNotification() {
         <span class="slider round"></span>
       </label>
 
-      <p>Cconstruction</p>
+      <p>Construction</p>
       <label class="switch">
         <input type="checkbox" id="protest-alert" checked>
         <span class="slider round"></span>
@@ -154,11 +154,11 @@ function editNotification() {
   document.querySelector(".notification-button-js").addEventListener("click", saveNotification);
 }
 
-function editQuitetHours() {
+function editQuietHours() {
   console.log('edit');
   
-  document.querySelector('.quitet-hours-inner-card-js').innerHTML =`
-    <div class="quitet-hours-display-card">
+  document.querySelector('.quiet-hours-inner-card-js').innerHTML =`
+    <div class="quiet-hours-display-card">
       <p>Quiet Hours</p>
       <label class="switch">
         <input type="checkbox" id="quiet hours" checked>
@@ -172,14 +172,14 @@ function editQuitetHours() {
       <input type="time" id="appt" name="appt">
     </div>
 
-    <div class="edit-card quitet-hours-edit-js">
-      <button class="save-button quitet-hours-button-js">
+    <div class="edit-card quiet-hours-edit-js">
+      <button class="save-button quiet-hours-button-js">
         <img src="../images/save.png" alt="profile icon">
         <p>save</p>
       </button>
     </div>`;
   
-  document.querySelector(".quitet-hours-button-js").addEventListener("click", saveQuitetHours);
+  document.querySelector(".quiet-hours-button-js").addEventListener("click", saveQuietHours);
 }
 
 function saveSafety() {
@@ -235,7 +235,7 @@ function saveNotification() {
         <img src="../images/bell-black.png" alt="profile icon">
         ON
       </p>
-      <p>Cconstruction</p>
+      <p>Construction</p>
       <p>
         <img src="../images/bell-black.png" alt="profile icon">
         ON
@@ -263,11 +263,11 @@ function saveNotification() {
   document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
 }
 
-function saveQuitetHours() {
+function saveQuietHours() {
   
   console.log('save');
-  document.querySelector('.quitet-hours-inner-card-js').innerHTML = 
-    `<div class="quitet-hours-display-card">
+  document.querySelector('.quiet-hours-inner-card-js').innerHTML = 
+    `<div class="quiet-hours-display-card">
       <p>Quiet Hours</p>
       <p>
         <img src="../images/bell-black.png" alt="profile icon">
@@ -281,9 +281,9 @@ function saveQuitetHours() {
       <p>7:00 AM</p>
     </div>
 
-    <div class="edit-card quitet-hours-edit-js">
+    <div class="edit-card quiet-hours-edit-js">
       <img src="../images/edit.png" alt="profile icon">
     </div>`
   
-  document.querySelector(".quitet-hours-edit-js").addEventListener("click", editQuitetHours);
+  document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
 }
