@@ -75,3 +75,14 @@ body{ margin:0; height:100%; }
   .input-container, .signUp-container{ padding:0 24px; }
   .header-top{ padding:4px 15px; }
 }
+.auth-buttons{ display:flex; background:white; margin-left:auto; align-items:center; }
+.auth-buttons .login{ padding:8px 16px; font-weight:600; font-size:14px; color:#912338; background:white; cursor:pointer; display:flex; align-items:center; }
+.auth-buttons .login:hover{ color:#6b1a28; }
+.auth-buttons .signup{ padding:8px 16px; font-weight:600; font-size:14px; color:#912338; background:white; border:2px solid #912338; border-radius:6px; margin-left:8px; cursor:pointer; }
+.auth-buttons .signup:hover{ background:#912338; color:white; }
+.divider{ color:#ccc; display:flex; align-items:center; padding:0 4px; }
+.outer-email-container{ margin-top:16px; width:100%; }
+.email-container{ width:100%; }
+.input-wrapper-email{ background:#f5f5f5; display:flex; align-items:center; padding:10px 12px; border:1.5px solid #ddd; border-radius:6px; transition:border-color 0.2s; }
+.input-wrapper-email:focus-within{ border-color:#912338; }
+.input-wrapper-email input{ border:none; outline:none; background:transparent; flex:1; font-size:15px; color:#333; }

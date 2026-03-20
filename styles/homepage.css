@@ -384,3 +384,40 @@ body{
   font-size: 18px;
   filter: hue-rotate(200deg) saturate(2);
 }
+
+.divider{
+  color: #ccc;
+  display:flex;
+  align-items:center;
+  padding: 0 4px;
+}
+.auth-buttons .login, .auth-buttons .signup{
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.auth-buttons .login{
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #912338;
+  background: white;
+}
+.auth-buttons .signup{
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #912338;
+  background: white;
+  border: 2px solid #912338;
+  border-radius: 6px;
+  margin-left: 8px;
+}
+.auth-buttons .login:hover{
+  color: #6b1a28;
+}
+.auth-buttons .signup:hover{
+  background: #912338;
+  color: white;
+}
