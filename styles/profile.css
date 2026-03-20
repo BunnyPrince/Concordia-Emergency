@@ -223,7 +223,7 @@ img {
 
 .navigation-display-card,
 .notification-display-card,
-.quitet-hours-display-card{
+.quiet-hours-display-card{
   display: grid;
   grid-template-columns: 50% 50%;
 }
