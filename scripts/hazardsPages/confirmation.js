@@ -9,10 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const row = document.createElement("div");
     row.className = "confirm-row";
 
-    row.innerHTML = `
-      <span class="confirm-key">${key}:</span>
-      <span class="confirm-value">${value}</span>
-    `;
+    if (key === "Photo" && Array.isArray(value)) {
+      row.innerHTML = `
+        <span class="confirm-key">${key}:</span>
+        <div class="confirm-photos">
+          ${value.map(photo => `<img src="${photo}" alt="Uploaded photo" style="max-width: 200px; max-height: 200px; margin: 5px;">`).join('')}
+        </div>
+      `;
+    } else {
+      row.innerHTML = `
+        <span class="confirm-key">${key}:</span>
+        <span class="confirm-value">${Array.isArray(value) ? value.join(', ') : value}</span>
+      `;
+    }
     container.appendChild(row);
   });
 

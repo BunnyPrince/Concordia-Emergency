@@ -13,10 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.removeItem("report"); 
 });
 
-document.getElementById("forward").addEventListener("click", function () {
+document.getElementById("forward").addEventListener("click", async function () {
     const floor = Array.from(document.querySelectorAll('input[name="floors"]:checked')).map(cb => cb.value);
     const photoInput = document.getElementById("photo");
-    const photoFiles = Array.from(photoInput.files).map(file => file.name);
+    
+    // Read photos as base64
+    const photoFiles = await Promise.all(Array.from(photoInput.files).map(file => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(file);
+        });
+    }));
 
     const data = {
         "Hazard Type": "Elevator",
