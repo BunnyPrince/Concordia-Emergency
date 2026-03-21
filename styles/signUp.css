@@ -10,8 +10,8 @@ body{ margin:0; height:100%; }
 /* Header */
 .header{ display:flex; flex-direction:column; background:white; border-bottom:1px solid #eee; }
 .header-top{ display:flex; justify-content:space-between; align-items:center; padding:4px 30px; background:white; border-bottom:1px solid #eee; }
-.header-bottom{ background:var(--header-color); padding:20px 30px; display:flex; align-items:center; }
-.crisis{ color:var(--text-light); font-weight:700; font-size:22px; font-family:"Montserrat",sans-serif; cursor:pointer; }
+.header-bottom{ background:var(--header-color); padding:20px 30px; display:flex; align-items:center; justify-content:center; }
+.crisis{ color:var(--text-light); font-weight:700; font-size:22px; font-family:"Montserrat",sans-serif; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
 .logo{ font-weight:bold; padding:10px; background:white; display:flex; justify-content:center; align-items:center; }
 .logo img{ height:35px; object-fit:contain; }
 .auth-buttons{ display:flex; background:white; margin-left:auto; align-items:center; }
@@ -32,9 +32,10 @@ body{ margin:0; height:100%; }
 /* Inputs */
 .input-container{ display:flex; flex-direction:column; align-items:center; padding:0 50px; font-size:14px; }
 .outer-username-container{ margin-top:24px; width:100%; }
+.outer-email-container{ margin-top:16px; width:100%; }
 .outer-password-container{ margin-top:16px; width:100%; }
 .outer-re-enter-password-container{ margin-top:16px; width:100%; }
-.username-container, .password-container, .re-enter-password-container{ width:100%; }
+.username-container, .email-container, .password-container, .re-enter-password-container{ width:100%; }
 
 .input-container label{ display:block; margin-bottom:6px; font-weight:600; font-size:13px; color:#555; text-transform:uppercase; letter-spacing:0.3px; }
 
