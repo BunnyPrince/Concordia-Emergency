@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
     <title>Sign Up page</title>
     <link rel="stylesheet" href="../../styles/hazardsPages/construction.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" href="../../images/concordia-logo.png">
   </head>
   <body>
      <!-- Header -->
-        <div class="header">
-      <div class="header-top">
-        <div class="logo" onclick="window.location.href='../../homepage.html'"><img src="../../images/concordia-full-logo.svg" style="height:35px;"></div>
-        <div class="auth-buttons">
-          <div class="login" onclick="window.location.href='../logIn.html'"><img src="../../images/user-regular.png" style="height:16px;vertical-align:middle;margin-right:6px;filter:invert(19%) sepia(72%) saturate(1200%) hue-rotate(320deg) brightness(80%)"> Log In</div>
-          <div class="divider">|</div>
-          <div class="signup" onclick="window.location.href='../signUp.html'">Sign Up</div>
-        </div>
-        <div class="mobile-menu">&#9776;</div>
-      </div>
-      <div class="header-bottom">
-        <div class="crisis">⚠️ Crisis Mode</div>
-      </div>
+    <div class="header">
+      <div class="crisis">!Crisis Mode!</div>
+      <div class="logo" onclick="window.location.href='../../homepage.html'">LOGO</div>
+      <div class="logIn" onclick="window.location.href='../../homepage.html'">Home</div>
     </div>
 
     <!-- Main Container -->
@@ -44,6 +33,13 @@
               <fieldset>
                 <legend>Location Details</legend>
                 <div class="question-row">
+                  
+                  <div class="dropdown building-container">
+                    <label for="building">Building</label>
+                    <select id="building" name="building">
+                      <option value="">Select an option</option>
+                    </select>
+                  </div>
                   <p>Intersection Street 1</p> 
                   <div class="input-wrapper ">
                     <input type="text" id="street1" placeholder="street" name="Intersection">
@@ -52,15 +48,8 @@
 
                   <p>Intersection Street 2</p> 
                   <div class="input-wrapper">
-                    <input type="text" id="street1" placeholder="street" name="Intersection">
+                    <input type="text" id="street2" placeholder="street" name="Intersection">
                     <span class="clear-btn" onclick="this.parentElement.querySelector('input').value=''">&times;</span>
-                  </div>
-                  
-                  <div class="dropdown building-container">
-                    <label for="building">Building</label>
-                    <select id="building" name="building">
-                      <option value="">Select an option</option>
-                    </select>
                   </div>
                 </div>
               </fieldset>
@@ -124,7 +113,7 @@
               </fieldset>
 
                <fieldset>
-                <legend>(option)</legend>
+                <legend>(optional)</legend>
                 <div class="question-row upload-container">
                   <p>Upload Photo</p> 
                   <div class="options">
@@ -135,9 +124,9 @@
             </form>
 
             <div class="back-forward">
-              <img src="../../images/arrow-left-solid.png" alt="profile icon"
+              <img src="../../images/arrow-left-solid.png" alt="profile icon" id="back"
                 onclick="window.location.href='../report.html'">
-              <img src="../../images/arrow-right-solid.png" alt="profile icon"
+              <img src="../../images/arrow-right-solid.png" alt="profile icon" id="forward"
                  onclick="window.location.href='confirmation.html'">
             </div>
           </div>
