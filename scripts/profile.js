@@ -2,6 +2,7 @@ import { logout, checkAuth } from './auth.js';
 
 const currentUser = checkAuth();
 const settingsState = {
+  safety: [],
   navigation: {
     route: 'fastest',
     elevator: 'prioritize',
@@ -31,9 +32,13 @@ function loadSettingsFromStorage() {
   }
 
   const userSettings = storedUser || currentUser || {};
+  const safety = userSettings.safetySettings
+    || (userSettings.accessibility && userSettings.accessibility !== 'none' ? [userSettings.accessibility] : []);
   const navigation = userSettings.navigationSettings || {};
   const notification = userSettings.notificationSettings || {};
   const quietHours = userSettings.quietHoursSettings || {};
+
+  settingsState.safety = Array.isArray(safety) ? safety : [];
 
   settingsState.navigation = {
     ...settingsState.navigation,
@@ -58,6 +63,7 @@ function persistSettingsToStorage() {
 
     const updatedUser = {
       ...storedCurrentUser,
+      safetySettings: [...settingsState.safety],
       navigationSettings: { ...settingsState.navigation },
       notificationSettings: { ...settingsState.notification },
       quietHoursSettings: { ...settingsState.quietHours }
@@ -74,6 +80,7 @@ function persistSettingsToStorage() {
         found = true;
         return {
           ...user,
+          safetySettings: [...settingsState.safety],
           navigationSettings: { ...settingsState.navigation },
           notificationSettings: { ...settingsState.notification },
           quietHoursSettings: { ...settingsState.quietHours }
@@ -90,6 +97,53 @@ function persistSettingsToStorage() {
   } catch (error) {
     console.error('Failed to persist profile settings:', error);
   }
+}
+
+function renderSafetySummary() {
+  const selectedItems = settingsState.safety.length > 0 ? settingsState.safety : ['None Selected'];
+  const htmlContent = selectedItems.map((item) => `<p>${item}</p>`).join('');
+
+  document.querySelector('.safety-inner-card-js').innerHTML = `
+    <div>
+      ${htmlContent}
+    </div>
+    <div class="edit-card safety-edit-js">
+      <img src="../images/edit.png" alt="profile icon">
+    </div>`;
+
+  document.querySelector('.safety-edit-js').addEventListener('click', editSafety);
+}
+
+function renderNavigationSummary() {
+  const routeLabel = {
+    fastest: 'Fastest Route',
+    safest: 'Safest Route',
+    accessible: 'Fully Accessible Route'
+  };
+  const elevatorLabel = {
+    prioritize: 'Prioritize Elevator',
+    avoid: 'Avoid Elevator'
+  };
+  const textLabel = {
+    small: 'Small',
+    medium: 'Medium',
+    large: 'Large'
+  };
+  const colorLabel = {
+    wheelchair: 'Standard',
+    mobility: 'High Contrast'
+  };
+
+  document.querySelector('.navigation-inner-card-js').innerHTML = `
+    <div class="navigation-display-card">
+      <p>Route Preference: </p><p>${routeLabel[settingsState.navigation.route] || 'Not Set'}</p>
+      <p>Elevator Preference: </p><p>${elevatorLabel[settingsState.navigation.elevator] || 'Not Set'}</p>
+      <p>Text Size: </p><p>${textLabel[settingsState.navigation.text] || 'Not Set'}</p>
+      <p>Color Mode: </p><p>${colorLabel[settingsState.navigation.color] || 'Not Set'}</p>
+    </div>
+    <div class="edit-card navigation-edit-js"><img src="../images/edit.png" alt="profile icon"></div>`;
+
+  document.querySelector('.navigation-edit-js').addEventListener('click', editNavigation);
 }
 
 function renderNotificationSummary() {
@@ -122,7 +176,7 @@ function renderNotificationSummary() {
       <img src="../images/edit.png" alt="profile icon">
     </div>`;
 
-  document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
+  document.querySelector('.notification-edit-js').addEventListener('click', editNotification);
 }
 
 function renderQuietHoursSummary() {
@@ -152,65 +206,31 @@ function renderQuietHoursSummary() {
       <img src="../images/edit.png" alt="profile icon">
     </div>`;
 
-  document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
+  document.querySelector('.quiet-hours-edit-js').addEventListener('click', editQuietHours);
 }
 
-function renderNavigationSummary() {
-  const routeLabel = {
-    fastest: 'Fastest Route',
-    safest: 'Safest Route',
-    accessible: 'Fully Accessible Route'
-  };
-  const elevatorLabel = {
-    prioritize: 'Prioritize Elevator',
-    avoid: 'Avoid Elevator'
-  };
-  const textLabel = {
-    small: 'Small',
-    medium: 'Medium',
-    large: 'Large'
-  };
-  const colorLabel = {
-    wheelchair: 'Standard',
-    mobility: 'High Contrast'
-  };
+document.addEventListener('DOMContentLoaded', () => {
+  loadSettingsFromStorage();
 
-  document.querySelector('.navigation-inner-card-js').innerHTML = `
-    <div class="navigation-display-card">
-      <p>Route Preference: </p><p>${routeLabel[settingsState.navigation.route] || 'Not Set'}</p>
-      <p>Elevator Preference: </p><p>${elevatorLabel[settingsState.navigation.elevator] || 'Not Set'}</p>
-      <p>Text Size: </p><p>${textLabel[settingsState.navigation.text] || 'Not Set'}</p>
-      <p>Color Mode: </p><p>${colorLabel[settingsState.navigation.color] || 'Not Set'}</p>
-    </div>
-    <div class="edit-card navigation-edit-js"><img src="../images/edit.png" alt="profile icon"></div>`;
-
-  document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadSettingsFromStorage();
-
-    if (currentUser) {
-        if (document.querySelector(".username-js")) {
-            document.querySelector(".username-js").textContent = currentUser.name;
-        }
-        if (document.querySelector(".user-email-js")) {
-            document.querySelector(".user-email-js").textContent = currentUser.email;
-        }
+  if (currentUser) {
+    if (document.querySelector('.username-js')) {
+      document.querySelector('.username-js').textContent = currentUser.name;
     }
-
-    const logoutBtn = document.querySelector('.logOut-js');
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout);
+    if (document.querySelector('.user-email-js')) {
+      document.querySelector('.user-email-js').textContent = currentUser.email;
     }
+  }
 
-    document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
+  const logoutBtn = document.querySelector('.logOut-js');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', logout);
+  }
 
-    renderNavigationSummary();
-    renderNotificationSummary();
-    renderQuietHoursSummary();
+  renderSafetySummary();
+  renderNavigationSummary();
+  renderNotificationSummary();
+  renderQuietHoursSummary();
 });
-
 
 function editSafety() {
   document.querySelector('.safety-inner-card-js').innerHTML =
@@ -238,15 +258,20 @@ function editSafety() {
         <label for="crowd">Prefer Low-Crowd Routes</label><br><br>
       </form>
     </div>
-    
+
     <div class="edit-card safety-edit-js">
       <button class="save-button save-button-js">
         <img src="../images/save.png" alt="profile icon">
         <p>save</p>
       </button>
-    </div>`
+    </div>`;
 
-  document.querySelector('.save-button-js').addEventListener("click", saveSafety);
+  const accessibilityInputs = document.querySelectorAll('#accessibility-form input[name="accessibility"]');
+  accessibilityInputs.forEach((checkbox) => {
+    checkbox.checked = settingsState.safety.includes(checkbox.value);
+  });
+
+  document.querySelector('.save-button-js').addEventListener('click', saveSafety);
 }
 
 function editNavigation() {
@@ -259,14 +284,14 @@ function editNavigation() {
         <option value="safest" ${settingsState.navigation.route === 'safest' ? 'selected' : ''}>Safest Route</option>
         <option value="accessible" ${settingsState.navigation.route === 'accessible' ? 'selected' : ''}>Fully Accessible Route</option>
       </select>
-      
+
       <label for="elevator">Elevator Preference:</label>
       <select id="elevator" name="elevator">
         <option value="">Select an option</option>
         <option value="prioritize" ${settingsState.navigation.elevator === 'prioritize' ? 'selected' : ''}>Prioritize Elevator</option>
         <option value="avoid" ${settingsState.navigation.elevator === 'avoid' ? 'selected' : ''}>Avoid Elevator</option>
       </select>
-      
+
       <label for="text">Text Size:</label>
       <select id="text" name="text">
         <option value="">Select an option</option>
@@ -274,7 +299,7 @@ function editNavigation() {
         <option value="medium" ${settingsState.navigation.text === 'medium' ? 'selected' : ''}>Medium</option>
         <option value="large" ${settingsState.navigation.text === 'large' ? 'selected' : ''}>Large</option>
       </select>
-      
+
       <label for="color">Color Mode:</label>
       <select id="color" name="color">
         <option value="">Select an option</option>
@@ -282,15 +307,15 @@ function editNavigation() {
         <option value="mobility" ${settingsState.navigation.color === 'mobility' ? 'selected' : ''}>High Contrast</option>
       </select>
     </div>
-    
+
     <div class="edit-card navigation-edit-js">
       <button class="save-button navigation-button-js">
         <img src="../images/save.png" alt="profile icon">
         <p>save</p>
       </button>
     </div>`;
-    
-  document.querySelector(".navigation-button-js").addEventListener("click", saveNavigation);
+
+  document.querySelector('.navigation-button-js').addEventListener('click', saveNavigation);
 }
 
 function editNotification() {
@@ -339,11 +364,12 @@ function editNotification() {
         <p>save</p>
       </button>
     </div>`;
-  document.querySelector(".notification-button-js").addEventListener("click", saveNotification);
+
+  document.querySelector('.notification-button-js').addEventListener('click', saveNotification);
 }
 
 function editQuietHours() {
-  document.querySelector('.quiet-hours-inner-card-js').innerHTML =`
+  document.querySelector('.quiet-hours-inner-card-js').innerHTML = `
     <div class="quiet-hours-display-card">
       <p>Quiet Hours</p>
       <label class="switch">
@@ -364,30 +390,16 @@ function editQuietHours() {
         <p>save</p>
       </button>
     </div>`;
-  
-  document.querySelector(".quiet-hours-button-js").addEventListener("click", saveQuietHours);
+
+  document.querySelector('.quiet-hours-button-js').addEventListener('click', saveQuietHours);
 }
 
 function saveSafety() {
   const checkboxes = document.querySelectorAll('#accessibility-form input[name="accessibility"]:checked');
-  let selectedItem = Array.from(checkboxes).map(cb => cb.value);
-  
-  if (selectedItem.length === 0) selectedItem = ["None Selected"];
+  settingsState.safety = Array.from(checkboxes).map((checkbox) => checkbox.value);
 
-  let htmlContente = '';
-  selectedItem.forEach((item) => {
-    htmlContente += `<p>${item}</p>`
-  });
-
-  document.querySelector('.safety-inner-card-js').innerHTML = `
-    <div>
-      ${htmlContente}
-    </div>
-    <div class="edit-card safety-edit-js">
-      <img src="../images/edit.png" alt="profile icon">
-    </div>`;
-  
-  document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
+  persistSettingsToStorage();
+  renderSafetySummary();
 }
 
 function saveNavigation() {
