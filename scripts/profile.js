@@ -1,8 +1,195 @@
 import { logout, checkAuth } from './auth.js';
 
 const currentUser = checkAuth();
+const settingsState = {
+  navigation: {
+    route: 'fastest',
+    elevator: 'prioritize',
+    text: 'medium',
+    color: 'mobility'
+  },
+  notification: {
+    protest: true,
+    construction: true,
+    weather: true,
+    elevator: true,
+    general: false
+  },
+  quietHours: {
+    enabled: true,
+    start: '22:00',
+    end: '07:00'
+  }
+};
+
+function loadSettingsFromStorage() {
+  let storedUser = null;
+  try {
+    storedUser = JSON.parse(localStorage.getItem('currentUser'));
+  } catch (error) {
+    storedUser = null;
+  }
+
+  const userSettings = storedUser || currentUser || {};
+  const navigation = userSettings.navigationSettings || {};
+  const notification = userSettings.notificationSettings || {};
+  const quietHours = userSettings.quietHoursSettings || {};
+
+  settingsState.navigation = {
+    ...settingsState.navigation,
+    ...navigation
+  };
+
+  settingsState.notification = {
+    ...settingsState.notification,
+    ...notification
+  };
+
+  settingsState.quietHours = {
+    ...settingsState.quietHours,
+    ...quietHours
+  };
+}
+
+function persistSettingsToStorage() {
+  try {
+    const storedCurrentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!storedCurrentUser) return;
+
+    const updatedUser = {
+      ...storedCurrentUser,
+      navigationSettings: { ...settingsState.navigation },
+      notificationSettings: { ...settingsState.notification },
+      quietHoursSettings: { ...settingsState.quietHours }
+    };
+
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+    const allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+    const userKey = updatedUser.id || updatedUser.username;
+    let found = false;
+    const updatedUsers = allUsers.map((user) => {
+      const compareKey = user.id || user.username;
+      if (compareKey === userKey) {
+        found = true;
+        return {
+          ...user,
+          navigationSettings: { ...settingsState.navigation },
+          notificationSettings: { ...settingsState.notification },
+          quietHoursSettings: { ...settingsState.quietHours }
+        };
+      }
+      return user;
+    });
+
+    if (!found) {
+      updatedUsers.push(updatedUser);
+    }
+
+    localStorage.setItem('allUsers', JSON.stringify(updatedUsers));
+  } catch (error) {
+    console.error('Failed to persist profile settings:', error);
+  }
+}
+
+function renderNotificationSummary() {
+  const renderStatus = (isOn) => `
+      <p>
+        <img src="../images/${isOn ? 'bell-black' : 'bell-slash-black'}.png" alt="profile icon">
+        ${isOn ? 'ON' : 'OFF'}
+      </p>`;
+
+  document.querySelector('.notification-inner-card-js').innerHTML = `
+    <div class="notification-display-card">
+      <p>Emergency Alert</p>
+      <p>
+        <img src="../images/lock-solid.png" alt="profile icon">
+        ON (Required)
+      </p>
+      <p>Protest</p>
+      ${renderStatus(settingsState.notification.protest)}
+      <p>Construction</p>
+      ${renderStatus(settingsState.notification.construction)}
+      <p>Weather</p>
+      ${renderStatus(settingsState.notification.weather)}
+      <p>Elevator Issues</p>
+      ${renderStatus(settingsState.notification.elevator)}
+      <p>General Notices</p>
+      ${renderStatus(settingsState.notification.general)}
+    </div>
+
+    <div class="edit-card notification-edit-js">
+      <img src="../images/edit.png" alt="profile icon">
+    </div>`;
+
+  document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
+}
+
+function renderQuietHoursSummary() {
+  const formatTime = (value) => {
+    const [hours, minutes] = value.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const hour12 = hours % 12 || 12;
+    return `${hour12}:${String(minutes).padStart(2, '0')} ${period}`;
+  };
+
+  document.querySelector('.quiet-hours-inner-card-js').innerHTML =
+    `<div class="quiet-hours-display-card">
+      <p>Quiet Hours</p>
+      <p>
+        <img src="../images/${settingsState.quietHours.enabled ? 'bell-black' : 'bell-slash-black'}.png" alt="profile icon">
+        ${settingsState.quietHours.enabled ? 'ON' : 'OFF'}
+      </p>
+
+      <p>Start Time</p>
+      <p>${formatTime(settingsState.quietHours.start)}</p>
+
+      <p>End Time</p>
+      <p>${formatTime(settingsState.quietHours.end)}</p>
+    </div>
+
+    <div class="edit-card quiet-hours-edit-js">
+      <img src="../images/edit.png" alt="profile icon">
+    </div>`;
+
+  document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
+}
+
+function renderNavigationSummary() {
+  const routeLabel = {
+    fastest: 'Fastest Route',
+    safest: 'Safest Route',
+    accessible: 'Fully Accessible Route'
+  };
+  const elevatorLabel = {
+    prioritize: 'Prioritize Elevator',
+    avoid: 'Avoid Elevator'
+  };
+  const textLabel = {
+    small: 'Small',
+    medium: 'Medium',
+    large: 'Large'
+  };
+  const colorLabel = {
+    wheelchair: 'Standard',
+    mobility: 'High Contrast'
+  };
+
+  document.querySelector('.navigation-inner-card-js').innerHTML = `
+    <div class="navigation-display-card">
+      <p>Route Preference: </p><p>${routeLabel[settingsState.navigation.route] || 'Not Set'}</p>
+      <p>Elevator Preference: </p><p>${elevatorLabel[settingsState.navigation.elevator] || 'Not Set'}</p>
+      <p>Text Size: </p><p>${textLabel[settingsState.navigation.text] || 'Not Set'}</p>
+      <p>Color Mode: </p><p>${colorLabel[settingsState.navigation.color] || 'Not Set'}</p>
+    </div>
+    <div class="edit-card navigation-edit-js"><img src="../images/edit.png" alt="profile icon"></div>`;
+
+  document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+    loadSettingsFromStorage();
+
     if (currentUser) {
         if (document.querySelector(".username-js")) {
             document.querySelector(".username-js").textContent = currentUser.name;
@@ -18,9 +205,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelector(".safety-edit-js").addEventListener("click", editSafety);
-    document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
-    document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
-    document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
+
+    renderNavigationSummary();
+    renderNotificationSummary();
+    renderQuietHoursSummary();
 });
 
 
@@ -67,31 +255,31 @@ function editNavigation() {
       <label for="route">Route Preference:</label>
       <select id="route" name="route">
         <option value="">Select an option</option>
-        <option value="fastest">Fastest Route</option>
-        <option value="safest">Safest Route</option>
-        <option value="accessible">Fully Accessible Route</option>
+        <option value="fastest" ${settingsState.navigation.route === 'fastest' ? 'selected' : ''}>Fastest Route</option>
+        <option value="safest" ${settingsState.navigation.route === 'safest' ? 'selected' : ''}>Safest Route</option>
+        <option value="accessible" ${settingsState.navigation.route === 'accessible' ? 'selected' : ''}>Fully Accessible Route</option>
       </select>
       
       <label for="elevator">Elevator Preference:</label>
       <select id="elevator" name="elevator">
         <option value="">Select an option</option>
-        <option value="prioritize">Prioritize Elevator</option>
-        <option value="avoid">Avoid Elevator</option>
+        <option value="prioritize" ${settingsState.navigation.elevator === 'prioritize' ? 'selected' : ''}>Prioritize Elevator</option>
+        <option value="avoid" ${settingsState.navigation.elevator === 'avoid' ? 'selected' : ''}>Avoid Elevator</option>
       </select>
       
       <label for="text">Text Size:</label>
       <select id="text" name="text">
         <option value="">Select an option</option>
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
+        <option value="small" ${settingsState.navigation.text === 'small' ? 'selected' : ''}>Small</option>
+        <option value="medium" ${settingsState.navigation.text === 'medium' ? 'selected' : ''}>Medium</option>
+        <option value="large" ${settingsState.navigation.text === 'large' ? 'selected' : ''}>Large</option>
       </select>
       
       <label for="color">Color Mode:</label>
       <select id="color" name="color">
         <option value="">Select an option</option>
-        <option value="wheelchair">Standard</option>
-        <option value="mobility">High Contrast</option>
+        <option value="wheelchair" ${settingsState.navigation.color === 'wheelchair' ? 'selected' : ''}>Standard</option>
+        <option value="mobility" ${settingsState.navigation.color === 'mobility' ? 'selected' : ''}>High Contrast</option>
       </select>
     </div>
     
@@ -116,31 +304,31 @@ function editNotification() {
 
       <p>Protest</p>
       <label class="switch">
-        <input type="checkbox" id="protest-alert" checked>
+        <input type="checkbox" id="protest-alert" ${settingsState.notification.protest ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
 
       <p>Construction</p>
       <label class="switch">
-        <input type="checkbox" id="protest-alert" checked>
+        <input type="checkbox" id="construction-alert" ${settingsState.notification.construction ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
 
       <p>Weather</p>
       <label class="switch">
-        <input type="checkbox" id="protest-alert" checked>
+        <input type="checkbox" id="weather-alert" ${settingsState.notification.weather ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
 
       <p>Elevator Issues</p>
       <label class="switch">
-        <input type="checkbox" id="protest-alert" checked>
+        <input type="checkbox" id="elevator-alert" ${settingsState.notification.elevator ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
 
       <p>General Notices</p>
       <label class="switch">
-        <input type="checkbox" id="protest-alert">
+        <input type="checkbox" id="general-alert" ${settingsState.notification.general ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
     </div>
@@ -155,21 +343,19 @@ function editNotification() {
 }
 
 function editQuietHours() {
-  console.log('edit');
-  
   document.querySelector('.quiet-hours-inner-card-js').innerHTML =`
     <div class="quiet-hours-display-card">
       <p>Quiet Hours</p>
       <label class="switch">
-        <input type="checkbox" id="quiet hours" checked>
+        <input type="checkbox" id="quiet-hours-toggle" ${settingsState.quietHours.enabled ? 'checked' : ''}>
         <span class="slider round"></span>
       </label>
 
       <p>Start Time</p>
-      <input type="time" id="appt" name="appt">
+      <input type="time" id="quiet-hours-start" name="quiet-hours-start" value="${settingsState.quietHours.start}">
 
       <p>End Time</p>
-      <input type="time" id="appt" name="appt">
+      <input type="time" id="quiet-hours-end" name="quiet-hours-end" value="${settingsState.quietHours.end}">
     </div>
 
     <div class="edit-card quiet-hours-edit-js">
@@ -205,85 +391,31 @@ function saveSafety() {
 }
 
 function saveNavigation() {
-  const routeVal = document.getElementById('route').value || "Not Set";
-  const elevatorVal = document.getElementById('elevator').value || "Not Set";
-  const textVal = document.getElementById('text').value || "Not Set";
-  const colorVal = document.getElementById('color').value || "Not Set";
+  settingsState.navigation.route = document.getElementById('route').value || settingsState.navigation.route;
+  settingsState.navigation.elevator = document.getElementById('elevator').value || settingsState.navigation.elevator;
+  settingsState.navigation.text = document.getElementById('text').value || settingsState.navigation.text;
+  settingsState.navigation.color = document.getElementById('color').value || settingsState.navigation.color;
 
-  document.querySelector('.navigation-inner-card-js').innerHTML = `
-    <div class="navigation-display-card">
-      <p>Route Preference: </p><p>${routeVal}</p>
-      <p>Elevator Preference: </p><p>${elevatorVal}</p>
-      <p>Text Size: </p><p>${textVal}</p>
-      <p>Color Mode: </p><p>${colorVal}</p>
-    </div>
-    <div class="edit-card navigation-edit-js"><img src="../images/edit.png"></div>`;
-    
-  document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
+  persistSettingsToStorage();
+  renderNavigationSummary();
 }
 
 function saveNotification() {
-  document.querySelector('.notification-inner-card-js').innerHTML = `
-    <div class="notification-display-card">
-      <p>Emergency Alert</p>
-      <p>
-        <img src="../images/lock-solid.png" alt="profile icon">
-        ON (Required)
-      </p>
-      <p>Protest</p>
-      <p>
-        <img src="../images/bell-black.png" alt="profile icon">
-        ON
-      </p>
-      <p>Construction</p>
-      <p>
-        <img src="../images/bell-black.png" alt="profile icon">
-        ON
-      </p>
-      <p>Weather</p>
-      <p>
-        <img src="../images/bell-black.png" alt="profile icon">
-        ON
-      </p>
-      <p>Elevator Issues</p>
-      <p>
-        <img src="../images/bell-black.png" alt="profile icon">
-        ON
-      </p>
-      <p>General Notices</p>
-      <p>
-        <img src="../images/bell-slash-black.png" alt="profile icon">
-        OFF
-      </p>
-    </div>
+  settingsState.notification.protest = document.getElementById('protest-alert')?.checked ?? true;
+  settingsState.notification.construction = document.getElementById('construction-alert')?.checked ?? true;
+  settingsState.notification.weather = document.getElementById('weather-alert')?.checked ?? true;
+  settingsState.notification.elevator = document.getElementById('elevator-alert')?.checked ?? true;
+  settingsState.notification.general = document.getElementById('general-alert')?.checked ?? false;
 
-    <div class="edit-card notification-edit-js">
-      <img src="../images/edit.png" alt="profile icon">
-    </div>`;
-  document.querySelector(".notification-edit-js").addEventListener("click", editNotification);
+  persistSettingsToStorage();
+  renderNotificationSummary();
 }
 
 function saveQuietHours() {
-  
-  console.log('save');
-  document.querySelector('.quiet-hours-inner-card-js').innerHTML = 
-    `<div class="quiet-hours-display-card">
-      <p>Quiet Hours</p>
-      <p>
-        <img src="../images/bell-black.png" alt="profile icon">
-        ON
-      </p>
+  settingsState.quietHours.enabled = document.getElementById('quiet-hours-toggle')?.checked ?? true;
+  settingsState.quietHours.start = document.getElementById('quiet-hours-start')?.value || '22:00';
+  settingsState.quietHours.end = document.getElementById('quiet-hours-end')?.value || '07:00';
 
-      <p>Start Time</p>
-      <p>10:00 PM</p>
-
-      <p>End Time</p>
-      <p>7:00 AM</p>
-    </div>
-
-    <div class="edit-card quiet-hours-edit-js">
-      <img src="../images/edit.png" alt="profile icon">
-    </div>`
-  
-  document.querySelector(".quiet-hours-edit-js").addEventListener("click", editQuietHours);
+  persistSettingsToStorage();
+  renderQuietHoursSummary();
 }
