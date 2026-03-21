@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import { initMap, initLocationFeatures } from "./map.js";
-import { getCurrentUser } from "./auth.js";
-=======
 import { initMap, initLocationFeatures, addDestinationSearch } from "./map.js";
-import { isLoggedIn } from "../data/profileData.js";
-import {normalColors} from "../data/colors.js"
->>>>>>> origin/main
+import { getCurrentUser } from "./auth.js";
 
 function toggleMenu() {
   const menu = document.getElementById("dropdownMenu");
