@@ -1,9 +1,9 @@
 :root{
-  --container-color: #E8DEF8;
-  --box-color:#bfbfbf;
-  --button-color:#cdbcf1;
-  --inner-button-color: #47268d;
-  --background-color:#f2eef4;
+  --container-color: #ffffff;
+  --box-color:#f5f5f5;
+  --button-color:#912338;
+  --button-color: #912338;
+  --background-color:#f5f5f5;
 }
 body{
   margin: 0px;
@@ -99,7 +99,7 @@ body{
 progress{
   width:460px;
   border-radius: 0px;
-  border: 1px solid var(--inner-button-color);
+  border: 1px solid var(--button-color);
 }
 
 progress::-webkit-progress-bar {
@@ -107,11 +107,11 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-  background-color: var(--inner-button-color); /* your color */
+  background-color: var(--button-color); /* your color */
 }
 
 progress::-moz-progress-bar {
-  background-color: var(--inner-button-color);
+  background-color: var(--button-color);
 }
 
 .input-inner-container{
@@ -331,3 +331,89 @@ img{
   
 }
 
+
+/* New Header */
+.header{ display:flex; flex-direction:column; background:white; border-bottom:1px solid #eee; }
+.header-top{ display:flex; justify-content:space-between; align-items:center; padding:4px 30px; background:white; border-bottom:1px solid #eee; }
+.header-bottom{ background:#912338; padding:20px 30px; display:flex; align-items:center; }
+.crisis{ color:white; font-weight:700; font-size:22px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+.logo{ padding:10px; background:white; display:flex; align-items:center; cursor:pointer; }
+.logo img{ height:35px; object-fit:contain; }
+.auth-buttons{ display:flex; background:white; margin-left:auto; align-items:center; }
+.auth-buttons .login{ padding:8px 16px; font-weight:600; font-size:14px; color:#912338; background:white; cursor:pointer; display:flex; align-items:center; }
+.auth-buttons .login:hover{ color:#6b1a28; }
+.auth-buttons .signup{ padding:8px 16px; font-weight:600; font-size:14px; color:#912338; background:white; border:2px solid #912338; border-radius:6px; margin-left:8px; cursor:pointer; }
+.auth-buttons .signup:hover{ background:#912338; color:white; }
+.divider{ color:#ccc; display:flex; align-items:center; padding:0 4px; }
+
+.mobile-menu{ display:none; }
+
+/* UI Improvements */
+.inner-container{
+  box-shadow: 0 2px 12px rgba(145,35,56,0.10);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.title{
+  background: white;
+  border-bottom: 3px solid #912338;
+  margin-bottom: 0;
+}
+
+.title p{
+  background: white;
+  color: #912338;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+fieldset{
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  margin: 16px 5%;
+  padding: 16px 20px;
+}
+
+legend{
+  color: #912338;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0 8px;
+}
+
+.input-wrapper{
+  border: 1.5px solid #ddd;
+  border-bottom: 1.5px solid #ddd;
+  border-radius: 6px;
+  background: #f9f9f9;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within{
+  border-color: #912338;
+  background: white;
+}
+
+.dropdown select{
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  background: #f9f9f9;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+.dropdown select:focus{
+  border-color: #912338;
+  outline: none;
+}
+
+progress{
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
