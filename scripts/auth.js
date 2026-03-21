@@ -1,3 +1,14 @@
+export function getCurrentUser() {
+    try {
+        return JSON.parse(localStorage.getItem('currentUser'));
+    } catch (error) {
+        return null;
+    }
+}
+
+export function isAuthenticated() {
+    return Boolean(getCurrentUser());
+}
 
 export function logout() {
     localStorage.removeItem('currentUser');
@@ -5,9 +16,8 @@ export function logout() {
     window.location.href = 'logIn.html';
 }
 
-
 export function checkAuth() {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const user = getCurrentUser();
     if (!user) {
         window.location.href = 'logIn.html';
         return null;
