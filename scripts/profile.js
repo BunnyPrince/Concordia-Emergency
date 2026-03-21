@@ -187,6 +187,7 @@ function saveSafety() {
 }
 
 function saveNavigation() {
+<<<<<<< Updated upstream
   document.querySelector('.navigation-inner-card-js').innerHTML = `
     <div class="navigation-display-card">
       <p>Route Preference: </p>
@@ -203,6 +204,16 @@ function saveNavigation() {
       <img src="../images/edit.png" alt="profile icon">
     </div>`;
   document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);
+=======
+  settingsState.navigation.route = document.getElementById('route').value || settingsState.navigation.route;
+  settingsState.navigation.elevator = document.getElementById('elevator').value || settingsState.navigation.elevator;
+  settingsState.navigation.text = document.getElementById('text').value || settingsState.navigation.text;
+  settingsState.navigation.color = document.getElementById('color').value || settingsState.navigation.color;
+
+  persistSettingsToStorage();
+  renderNavigationSummary();
+  applyUserPreferences();
+>>>>>>> Stashed changes
 }
 
 function saveNotification() {
@@ -257,6 +268,7 @@ function saveQuitetHours() {
         ON
       </p>
 
+<<<<<<< Updated upstream
       <p>Start Time</p>
       <p>10:00 PM</p>
 
@@ -269,4 +281,92 @@ function saveQuitetHours() {
     </div>`
   
   document.querySelector(".quitet-hours-edit-js").addEventListener("click", editQuitetHours);
+=======
+  persistSettingsToStorage();
+  renderQuietHoursSummary();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Apply User Preferences
+  if (currentUser) {
+    applyUserPreferences();
+  }
+});
+
+function applyUserPreferences() {
+  if (!settingsState || !settingsState.navigation) return;
+  
+  const textSize = settingsState.navigation.text;
+  const colorMode = settingsState.navigation.color; // 'wheelchair' (Standard) or 'mobility' (High Contrast)
+  const logoutBtn = document.querySelector('.logOut-js');
+
+  // Apply Font Size
+  const sizeMap = { "small": "10px", "medium": "16px", "large": "28px" };
+  document.body.style.fontSize = sizeMap[textSize] || "16px";
+
+  let hoverStyle = document.getElementById('dynamic-hover-style');
+  if (!hoverStyle) {
+    hoverStyle = document.createElement('style');
+    hoverStyle.id = 'dynamic-hover-style';
+    document.head.appendChild(hoverStyle);
+  }
+
+  // Apply Color Theme
+  if (colorMode === "mobility") {
+    document.documentElement.style.setProperty('--container-color', '#eae2b7');
+    document.documentElement.style.setProperty('--background-color', '#ffffff');
+    document.documentElement.style.setProperty('--inner-button-color', '#f77f00');
+    const allParagraphs = document.querySelectorAll('.safety-settings > p, .navigation-settings > p, .notification-settings > p, .quiet-hours-settings > p');
+    allParagraphs.forEach(p => {
+      p.style.color = "#f77f00";
+    });
+    const titleBox = document.querySelector('.title p');
+    if (titleBox) {
+      titleBox.style.backgroundColor = "#f5f5f5"; // Forces visibility against the new background
+    }
+    if (logoutBtn) {
+      logoutBtn.style.color = "#f77f00"; 
+      logoutBtn.style.fontWeight = "bold";
+      logoutBtn.style.border = "2px solid #f77f00";
+    }
+    hoverStyle.innerHTML = `
+      .logOut-js:hover { 
+        background-color: #f77f00 !important; 
+        color: #ffffff !important;
+      }
+    `;
+    document.body.style.filter = "contrast(1.2)";
+    const boxes = document.querySelectorAll('.inner-card, .delete-card');
+    boxes.forEach(box => {
+      box.style.boxShadow = "0px 0px 15px 2px rgba(0, 0, 0, 0.25)";
+      box.style.marginBottom = "25px";
+    });
+  } else {
+    // Reset to normal theme variables if standard is selected
+    document.documentElement.style.removeProperty('--container-color');
+    document.documentElement.style.removeProperty('--background-color');
+    document.documentElement.style.removeProperty('--inner-button-color');
+    const allParagraphs = document.querySelectorAll('.safety-settings > p, .navigation-settings > p, .notification-settings > p, .quiet-hours-settings > p');
+    allParagraphs.forEach(p => {
+      p.style.color = "#912338";
+    });
+    const titleBox = document.querySelector('.title p');
+    if (titleBox) {
+      titleBox.style.filter = "";
+      titleBox.style.backgroundColor = ""; // Returns to CSS default
+    }
+    if (logoutBtn) {
+      logoutBtn.style.color = ""; // Reset to CSS default
+      logoutBtn.style.fontWeight = "";
+      logoutBtn.style.border = "";
+    }
+    hoverStyle.innerHTML = "";
+    document.body.style.filter = "none";
+    const boxes = document.querySelectorAll('.inner-card, .delete-card');
+    boxes.forEach(box => {
+      box.style.boxShadow = ""; // Removes the inline style entirely
+      box.style.marginBottom = ""; 
+    });
+  }
+>>>>>>> Stashed changes
 }
