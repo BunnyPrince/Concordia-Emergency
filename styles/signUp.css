@@ -63,6 +63,15 @@ body{ margin:0; height:100%; }
 .accessibility-container select{ width:100%; padding:10px 12px; border:1.5px solid #ddd; border-radius:6px; font-size:15px; color:#333; background:#f5f5f5; outline:none; }
 .accessibility-container select:focus{ border-color:var(--header-color); }
 
+.signUp-error{
+  width: 100%;
+  margin: 14px 0 0;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 600;
+  display: none;
+}
+
 /* Button */
 .signUp-container{ margin-top:32px; text-align:center; padding:0 50px; }
 .signUp{ height:44px; width:100%; border-radius:4px; border:2px solid var(--header-color); background:white; color:var(--header-color); font-size:15px; font-weight:700; cursor:pointer; transition:all 0.2s; }

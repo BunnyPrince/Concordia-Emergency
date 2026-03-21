@@ -1,7 +1,12 @@
 import { users } from '../data/profileData.js';
 
 function getMergedUsers() {
-  const storedUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+  let storedUsers = [];
+  try {
+    storedUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+  } catch (error) {
+    storedUsers = [];
+  }
   const userMap = new Map();
 
   users.forEach((user) => {
@@ -14,6 +19,27 @@ function getMergedUsers() {
   });
 
   return Array.from(userMap.values());
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function setError(message) {
+  const errorElement = document.querySelector('.signUp-error-js');
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    return;
+  }
+  alert(message);
+}
+
+function clearError() {
+  const errorElement = document.querySelector('.signUp-error-js');
+  if (!errorElement) return;
+  errorElement.textContent = '';
+  errorElement.style.display = 'none';
 }
 
 function togglePassword(link) {
@@ -30,52 +56,82 @@ function togglePassword(link) {
 }
 
 function handleSignUp(event) {
-    event.preventDefault();
+  event.preventDefault();
+  clearError();
 
-    const username = document.getElementById("username").value;
-    const emailInput = document.getElementById("email");
-    const email = emailInput ? emailInput.value : "";
-    const password = document.getElementById("password").value;
+  const username = document.getElementById('username')?.value.trim() || '';
+  const email = document.getElementById('email')?.value.trim() || '';
+  const password = document.getElementById('password')?.value || '';
+  const confirmPassword = document.getElementById('re-enter-password')?.value || '';
 
-    if (!username || !password) {
-        alert("Please fill in all fields!");
-        return;
-    }
+  if (!username || !email || !password || !confirmPassword) {
+    setError('Please fill in all required fields.');
+    return;
+  }
 
-    let allUsers = getMergedUsers();
-    const usernameExists = allUsers.some(
-      (u) => u.username.toLowerCase() === username.toLowerCase()
-    );
+  if (!isValidEmail(email)) {
+    setError('Please enter a valid email address.');
+    return;
+  }
 
-    if (usernameExists) {
-      alert("Username already exists. Please choose another one.");
-      return;
-    }
+  if (password !== confirmPassword) {
+    setError('Passwords do not match.');
+    return;
+  }
 
-    const newUser = {
-        id: Date.now().toString(), 
-        username: username,
-        password: password,
-        name: username, 
-        email: email,
-        role: "Student"
-    };
+  const allUsers = getMergedUsers();
+  const normalizedUsername = username.toLowerCase();
+  const normalizedEmail = email.toLowerCase();
 
+  const usernameExists = allUsers.some(
+    (u) => (u.username || '').toLowerCase() === normalizedUsername
+  );
+  if (usernameExists) {
+    setError('Username already exists. Please choose another one.');
+    return;
+  }
+
+  const emailExists = allUsers.some(
+    (u) => (u.email || '').toLowerCase() === normalizedEmail
+  );
+  if (emailExists) {
+    setError('Email is already in use. Please use another email.');
+    return;
+  }
+
+  const newUser = {
+    id: Date.now().toString(),
+    username,
+    password,
+    name: username,
+    email,
+    role: 'Student'
+  };
+
+  try {
     allUsers.push(newUser);
     localStorage.setItem('allUsers', JSON.stringify(allUsers));
+  } catch (error) {
+    setError('Sign up failed due to a storage error. Please try again.');
+    return;
+  }
 
-    alert("Sign up successful! Please log in.");
-    window.location.href = 'logIn.html'; 
+  alert('Sign up successful! Please log in.');
+  window.location.href = 'logIn.html';
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const passwordBtn = document.querySelector(".show-password-js");
-  passwordBtn.addEventListener("click",() =>  togglePassword('password'));
+  if (passwordBtn) {
+    passwordBtn.addEventListener("click",() =>  togglePassword('password'));
+  }
   
   const reEnterPasswordBtn = document.querySelector(".show-re-enter-password-js");
-  reEnterPasswordBtn.addEventListener("click",() =>  togglePassword('re-enter-password'));
+  if (reEnterPasswordBtn) {
+    reEnterPasswordBtn.addEventListener("click",() =>  togglePassword('re-enter-password'));
+  }
 
-  const signUpBtn = document.querySelector(".signUp-js"); // 确保你的 HTML 里按钮类名是这个
+  const signUpBtn = document.querySelector(".signUp-js");
   if (signUpBtn) {
     signUpBtn.addEventListener("click", handleSignUp);
   }
