@@ -278,7 +278,7 @@ export function addDestinationSearch(map) {
     if (query.length < 3) { suggestionsList.style.display = 'none'; return; }
     const params = new URLSearchParams({
       q: query, format: 'json', limit: 5,
-      countrycodes: 'ca', viewbox: '-73.65,45.46,-73.52,45.54', bounded: 0
+      countrycodes: 'ca', viewbox: '-73.65,45.46,-73.52,45.54', bounded: 0, dedupe: 1
     });
     try {
       const res  = await fetch(`https://nominatim.openstreetmap.org/search?${params}`,
@@ -299,8 +299,7 @@ export function addDestinationSearch(map) {
 
   async function geocode(address) {
     const params = new URLSearchParams({
-      q: address, format: 'json', limit: 1,
-      countrycodes: 'ca', viewbox: '-73.65,45.46,-73.52,45.54', bounded: 0
+      q: address, format: 'json', limit: 1
     });
     const res  = await fetch(`https://nominatim.openstreetmap.org/search?${params}`,
       { headers: { 'Accept-Language': 'en' } });
