@@ -10,16 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
     row.className = "confirm-row";
 
     if (key === "Photo" && Array.isArray(value)) {
+      const photosHtml = value.length
+        ? value.map(photo => `<img src="${photo}" alt="Uploaded photo" style="max-width: 200px; max-height: 200px; margin: 5px;">`).join('')
+        : '<span class="confirm-value">N/A</span>';
+
       row.innerHTML = `
         <span class="confirm-key">${key}:</span>
-        <div class="confirm-photos">
-          ${value.map(photo => `<img src="${photo}" alt="Uploaded photo" style="max-width: 200px; max-height: 200px; margin: 5px;">`).join('')}
-        </div>
+        <div class="confirm-value">${photosHtml}</div>
       `;
     } else {
+      const displayValue = Array.isArray(value)
+        ? (value.length ? value.join(', ') : 'N/A')
+        : (value === undefined || value === null || String(value).trim() === '' ? 'N/A' : value);
+
       row.innerHTML = `
         <span class="confirm-key">${key}:</span>
-        <span class="confirm-value">${Array.isArray(value) ? value.join(', ') : value}</span>
+        <span class="confirm-value">${displayValue}</span>
       `;
     }
     container.appendChild(row);

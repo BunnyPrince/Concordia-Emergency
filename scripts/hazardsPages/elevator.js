@@ -13,7 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.removeItem("report"); 
 });
 
-document.getElementById("forward").addEventListener("click", async function () {
+document.getElementById("forward").addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const building = document.getElementById("building").value.trim();
+    if (!building) {
+      alert("Please choose a building to make report.");
+      return;
+    }
+
     const floor = Array.from(document.querySelectorAll('input[name="floors"]:checked')).map(cb => cb.value);
     const photoInput = document.getElementById("photo");
     
@@ -28,7 +36,7 @@ document.getElementById("forward").addEventListener("click", async function () {
 
     const data = {
         "Hazard Type": "Elevator",
-        "Building": document.getElementById("building").value,
+        "Building": building,
         "Floors Affected": floor,
         "Elevator Status": document.getElementById("status").value,
         "Alternative Access": document.getElementById("alternative").value,
@@ -37,4 +45,5 @@ document.getElementById("forward").addEventListener("click", async function () {
     };
 
     localStorage.setItem("report", JSON.stringify(data));
+    window.location.href = "confirmation.html";
 });

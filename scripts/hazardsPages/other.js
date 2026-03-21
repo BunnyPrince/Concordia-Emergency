@@ -18,7 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.getElementById("forward").addEventListener("click", async function () {
+document.getElementById("forward").addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const building = document.getElementById("building").value.trim();
+    if (!building) {
+      alert("Please choose a building to make report.");
+      return;
+    }
+
     const photoInput = document.getElementById("photo");
     
     // Read photos as base64
@@ -32,7 +40,7 @@ document.getElementById("forward").addEventListener("click", async function () {
 
     const data = {
         "Hazard Type": "Other",
-        "Building": document.getElementById("building").value,
+        "Building": building,
         "Intersection Street 1": document.getElementById("street1").value,
         "Intersection Street 2": document.getElementById("street2").value,
         "Impact Type": document.getElementById("impact").value,
@@ -41,4 +49,5 @@ document.getElementById("forward").addEventListener("click", async function () {
     };
 
     localStorage.setItem("report", JSON.stringify(data));
+    window.location.href = "confirmation.html";
 });

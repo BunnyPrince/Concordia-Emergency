@@ -13,7 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.removeItem("report"); 
 });
 
-document.getElementById("forward").addEventListener("click", async function () {
+document.getElementById("forward").addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const building = document.getElementById("building").value.trim();
+    if (!building) {
+      alert("Please choose a building to make report.");
+      return;
+    }
+
     const accessibility = Array.from(document.querySelectorAll('input[name="accessibility"]:checked')).map(cb => cb.value);
     const photoInput = document.getElementById("photo");
     
@@ -28,7 +36,7 @@ document.getElementById("forward").addEventListener("click", async function () {
 
     const data = {
         "Hazard Type": "Weather",
-        "Building": document.getElementById("building").value,
+        "Building": building,
         "Intersection Street 1": document.getElementById("street1").value,
         "Intersection Street 2": document.getElementById("street2").value,
         "Type of Weather": document.getElementById("type-weather").value,
@@ -38,4 +46,5 @@ document.getElementById("forward").addEventListener("click", async function () {
     };
 
     localStorage.setItem("report", JSON.stringify(data));
+    window.location.href = "confirmation.html";
 });
