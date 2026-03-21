@@ -1,24 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Log In page</title>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../images/concordia-logo.png">
+    <title>Log In — Concordia Emergency</title>
     <link rel="stylesheet" href="../styles/logIn.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-     <!-- Header -->
+    <!-- Header -->
     <div class="header">
-      <div class="crisis">!Crisis Mode!</div>
-      <div class="logo" onclick="window.location.href='../homepage.html'">LOGO</div>
-      <div class="signup" onclick="window.location.href='signUp.html'">Sign Up</div>
+            <div class="header-top">
+        <div class="logo"><img src="../images/concordia-full-logo.svg" style="height:35px;"></div>
+        <div class="auth-buttons">
+          <div class="login" onclick="window.location.href='logIn.html'"><img src="../images/user-regular.png" style="height:16px;vertical-align:middle;margin-right:6px;filter:invert(19%) sepia(72%) saturate(1200%) hue-rotate(320deg) brightness(80%)"> Log In</div>
+          <div class="divider">|</div>
+          <div class="signup" onclick="window.location.href='signUp.html'">Sign Up</div>
+        </div>
+        <div class="mobile-menu">&#9776;</div>
+      </div>
+        </div>
+        </div>
+        <div class="mobile-menu">&#9776;</div>
+      </div>
+      <div class="header-bottom">
+        <div class="crisis">⚠️ Crisis Mode</div>
+      </div>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="auth-buttons">
+          <div class="login" onclick="window.location.href='logIn.html'"><img src="../images/user-regular.png" style="height:16px;vertical-align:middle;margin-right:6px;filter:invert(19%) sepia(72%) saturate(1200%) hue-rotate(320deg) brightness(80%)"> Log In</div>
+          <div class="divider">|</div>
+          <div class="auth-buttons">
+          <div class="login" onclick="window.location.href='logIn.html'"><img src="../images/user-regular.png" style="height:16px;vertical-align:middle;margin-right:6px;filter:invert(19%) sepia(72%) saturate(1200%) hue-rotate(320deg) brightness(80%)"> Log In</div>
+          <div class="divider">|</div>
+          <div class="signup" onclick="window.location.href='signUp.html'">Sign Up</div>
+        </div>
+        </div>
     </div>
 
     <!-- Main Container -->
     <div class="main-container">
       <div class="inner-container">
-        <div class="title">
-          <p>Log In</p>
-        </div>
+        <div class="top-bar"></div>
+        <div class="title"><p>Log In</p></div>
 
         <div class="input-container">
           <div class="outer-username-container">
@@ -30,7 +55,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="outer-password-container">
             <div class="password-container">
               <label for="password">Password</label>
@@ -41,17 +66,14 @@
               </div>
             </div>
           </div>
-          
-
         </div>
 
         <div class="logIn-container">
           <button class="logIn logIn-js">Log In</button>
         </div>
-        
       </div>
     </div>
-    
+
     <script type="module" src="../scripts/logIn.js"></script>
     <script></script>
   </body>
