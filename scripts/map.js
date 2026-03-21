@@ -219,6 +219,7 @@ export function addDestinationSearch(map) {
           <button id="ds-btn" class="ds-btn">Go</button>
           <button id="ds-clear" class="ds-clear" title="Clear">✕</button>
         </div>
+        <ul id="ds-suggestions" class="ds-suggestions"></ul>
         <div id="ds-status" class="ds-status"></div>
       `;
       L.DomEvent.disableClickPropagation(container);
@@ -247,6 +248,54 @@ export function addDestinationSearch(map) {
     input.value = '';
     setStatus('');
   }
+
+  // Debounce helper
+  function debounce(fn, delay) {
+    let timer;
+    return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
+  }
+
+  const suggestionsList = document.getElementById('ds-suggestions');
+
+  function showSuggestions(items) {
+    suggestionsList.innerHTML = '';
+    if (!items.length) { suggestionsList.style.display = 'none'; return; }
+    items.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'ds-suggestion-item';
+      li.textContent = item.display_name;
+      li.addEventListener('click', () => {
+        input.value = item.display_name;
+        suggestionsList.style.display = 'none';
+        handleSearch();
+      });
+      suggestionsList.appendChild(li);
+    });
+    suggestionsList.style.display = 'block';
+  }
+
+  async function fetchSuggestions(query) {
+    if (query.length < 3) { suggestionsList.style.display = 'none'; return; }
+    const params = new URLSearchParams({
+      q: query, format: 'json', limit: 5,
+      countrycodes: 'ca', viewbox: '-73.65,45.46,-73.52,45.54', bounded: 0
+    });
+    try {
+      const res  = await fetch(`https://nominatim.openstreetmap.org/search?${params}`,
+        { headers: { 'Accept-Language': 'en' } });
+      const data = await res.json();
+      showSuggestions(data);
+    } catch { suggestionsList.style.display = 'none'; }
+  }
+
+  const debouncedFetch = debounce(fetchSuggestions, 300);
+
+  input.addEventListener('input', () => debouncedFetch(input.value.trim()));
+
+  // Hide suggestions when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.ds-control')) suggestionsList.style.display = 'none';
+  });
 
   async function geocode(address) {
     const params = new URLSearchParams({
