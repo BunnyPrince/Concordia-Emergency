@@ -13,9 +13,3 @@ export const users = [
         accessibility: "none" 
     }
 ];
-
-// Login status
-export let isLoggedIn = false;
-
-// Current User
-export let currentUser = null;
