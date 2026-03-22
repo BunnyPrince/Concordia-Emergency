@@ -2,16 +2,18 @@ import { users } from '../data/profileData.js';
 
 function getMergedUsers() {
   const storedUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
-  const merged = [...users];
+  const userMap = new Map();
 
-  storedUsers.forEach((storedUser) => {
-    const exists = merged.some((u) => u.username === storedUser.username);
-    if (!exists) {
-      merged.push(storedUser);
-    }
+  users.forEach((user) => {
+    userMap.set(user.username.toLowerCase(), user);
   });
 
-  return merged;
+  // Stored users should override defaults with the same username.
+  storedUsers.forEach((user) => {
+    userMap.set(user.username.toLowerCase(), user);
+  });
+
+  return Array.from(userMap.values());
 }
 
 function togglePassword() {
