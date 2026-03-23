@@ -374,7 +374,68 @@ export function addDestinationSearch(map) {
   }
 
   async function handleSearch() {
-    if (!navigator.onLine) { setStatus('📡 Offline — Routing unavailable. Use the map to navigate.', true); return; }
+    if (!navigator.onLine) {
+      const query = input.value.trim();
+      if (!query) { setStatus('Please enter a destination.', true); return; }
+
+      // Find matching building from local data
+      const q = query.toLowerCase();
+      const match =
+        buildings.find(b => b.code.toLowerCase() === q) ||
+        buildings.find(b => b.buildingName.toLowerCase().includes(q)) ||
+        buildings.find(b => q.includes(b.code.toLowerCase()));
+
+      if (!match) {
+        setStatus('📡 Offline — Building not found in local data. Try a building code (e.g. "H", "EV", "MB").', true);
+        return;
+      }
+
+      // Get user position
+      const userPos = lastKnownPosition;
+      if (!userPos) {
+        setStatus('📡 Offline — Location unavailable. Please enable GPS.', true);
+        return;
+      }
+
+      // Calculate straight-line distance (haversine)
+      const R = 6371000;
+      const dLat = (match.lat - userPos.lat) * Math.PI / 180;
+      const dLng = (match.lng - userPos.lng) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(userPos.lat * Math.PI / 180) * Math.cos(match.lat * Math.PI / 180) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const distM = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+
+      // Cardinal direction
+      const latDiff = match.lat - userPos.lat;
+      const lngDiff = match.lng - userPos.lng;
+      let dir = '';
+      if (Math.abs(latDiff) >= Math.abs(lngDiff)) {
+        dir = latDiff > 0 ? 'north' : 'south';
+      } else {
+        dir = lngDiff > 0 ? 'east' : 'west';
+      }
+
+      // Draw straight line on map
+      if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
+      if (destMarker)     { map.removeLayer(destMarker);     destMarker = null; }
+
+      routingControl = L.polyline(
+        [[userPos.lat, userPos.lng], [match.lat, match.lng]],
+        { color: '#e67e22', weight: 4, opacity: 0.8, dashArray: '8, 8' }
+      ).addTo(map);
+
+      destMarker = L.marker([match.lat, match.lng], {
+        icon: L.divIcon({
+          html: '<div class="ds-dest-pin">📍</div>',
+          className: '', iconSize: [32, 32], iconAnchor: [16, 32]
+        })
+      }).addTo(map).bindPopup(`<b>${match.code} — ${match.buildingName}</b><br><small>~${distM}m ${dir}</small>`).openPopup();
+
+      map.fitBounds(routingControl.getBounds(), { padding: [60, 60] });
+      setStatus(`📡 Offline — Head ~${distM}m ${dir} to ${match.buildingName} (${match.code})`, false);
+      return;
+    }
     const query = input.value.trim();
     if (!query) { setStatus('Please enter a destination.', true); return; }
     btn.disabled = true;
