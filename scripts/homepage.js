@@ -11,6 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const map = initMap();
   initLocationFeatures(map);
   addDestinationSearch(map);
+
+  // Offline mode detection
+  function updateOfflineBanner() {
+    const banner = document.getElementById('offline-banner');
+    if (!banner) return;
+    banner.style.display = navigator.onLine ? 'none' : 'block';
+  }
+  updateOfflineBanner();
+  window.addEventListener('offline', updateOfflineBanner);
+  window.addEventListener('online', updateOfflineBanner);
+
   const menuBtn = document.querySelector(".mobile-menu");
   if (menuBtn) {
     menuBtn.addEventListener("click", toggleMenu);
@@ -48,3 +59,61 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+let isCrisisMode = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const crisisBtn = document.querySelector(".crisis");
+  if (crisisBtn) {
+    crisisBtn.addEventListener("click", toggleCrisisMode);
+  }
+});
+
+function toggleCrisisMode() {
+  isCrisisMode = !isCrisisMode;
+  const crisisBtn = document.querySelector(".crisis");
+  
+  // Elements to hide completely
+  const sidePanel = document.querySelector(".side-panel");
+  const bottomSection = document.querySelector(".bottom-section");
+  const logo = document.querySelector(".logo");
+  const authButtons = document.querySelector(".auth-buttons");
+  const header = document.querySelector(".header");
+
+  if (isCrisisMode) {
+    document.body.classList.add("crisis-active");
+    crisisBtn.textContent = "❎ Exit Crisis Mode";
+
+    // Hide everything except the map container
+    [header, sidePanel, bottomSection].forEach(el => {
+      if (el) el.style.display = "none";
+    });
+
+    // Reposition the exit button so it stays clickable outside the hidden header
+    crisisBtn.style.position = "fixed";
+    crisisBtn.style.top = "20px";
+    crisisBtn.style.right = "20px";
+    crisisBtn.style.zIndex = "2000";
+    document.body.appendChild(crisisBtn);
+
+  } else {
+    document.body.classList.remove("crisis-active");
+    crisisBtn.textContent = "⚠️ Crisis Mode";
+
+    // Restore elements
+    [header, sidePanel, bottomSection].forEach(el => {
+      if (el) el.style.display = "";
+    });
+
+    // Move button back to original header location
+    const headerBottom = document.querySelector(".header-bottom");
+    if (headerBottom) headerBottom.appendChild(crisisBtn);
+    crisisBtn.style = ""; 
+  }
+
+  // Force Leaflet to recognize the new box dimensions
+  setTimeout(() => {
+    if (window.map) {
+      window.map.invalidateSize();
+    }
+  }, 200);
+}

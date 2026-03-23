@@ -1,6 +1,22 @@
 import { buildings } from '../data/building.js';
 import { alerts } from '../data/alertData.js';
 
+function isQuietHours() {
+  const saved = JSON.parse(localStorage.getItem('quietHours') || '{}');
+  if (saved.enabled === false) return false;
+  const start = saved.start || '22:00';
+  const end = saved.end || '07:00';
+  const now = new Date();
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  const s = sh * 60 + sm;
+  const e = eh * 60 + em;
+  // handle overnight range e.g. 22:00 - 07:00
+  if (s > e) return cur >= s || cur < e;
+  return cur >= s && cur < e;
+}
+
 let lastKnownPosition = null;
 
 const alertColors = {
@@ -154,7 +170,7 @@ export function initLocationFeatures(map) {
     // Check proximity to alerts (50m)
     alerts.forEach(alert => {
       const dist = map.distance([userLat, userLng], [alert.location.lat, alert.location.lng]);
-      if (dist < 50 && !notifiedAlerts.has(alert.id)) {
+      if (dist < 50 && !notifiedAlerts.has(alert.id) && !isQuietHours()) {
         notifiedAlerts.add(alert.id);
         L.popup({ autoClose: false, closeOnClick: false })
           .setLatLng([alert.location.lat, alert.location.lng])
@@ -170,6 +186,7 @@ export function initLocationFeatures(map) {
 
   // Navigate to clicked building
   map.on('click', (e) => {
+    if (!navigator.onLine) return;
     navigator.geolocation.getCurrentPosition((pos) => {
       if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
       const d = 0.0005;
@@ -357,6 +374,68 @@ export function addDestinationSearch(map) {
   }
 
   async function handleSearch() {
+    if (!navigator.onLine) {
+      const query = input.value.trim();
+      if (!query) { setStatus('Please enter a destination.', true); return; }
+
+      // Find matching building from local data
+      const q = query.toLowerCase();
+      const match =
+        buildings.find(b => b.code.toLowerCase() === q) ||
+        buildings.find(b => b.buildingName.toLowerCase().includes(q)) ||
+        buildings.find(b => q.includes(b.code.toLowerCase()));
+
+      if (!match) {
+        setStatus('📡 Offline — Building not found in local data. Try a building code (e.g. "H", "EV", "MB").', true);
+        return;
+      }
+
+      // Get user position
+      const userPos = lastKnownPosition;
+      if (!userPos) {
+        setStatus('📡 Offline — Location unavailable. Please enable GPS.', true);
+        return;
+      }
+
+      // Calculate straight-line distance (haversine)
+      const R = 6371000;
+      const dLat = (match.lat - userPos.lat) * Math.PI / 180;
+      const dLng = (match.lng - userPos.lng) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(userPos.lat * Math.PI / 180) * Math.cos(match.lat * Math.PI / 180) *
+                Math.sin(dLng/2) * Math.sin(dLng/2);
+      const distM = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+
+      // Cardinal direction
+      const latDiff = match.lat - userPos.lat;
+      const lngDiff = match.lng - userPos.lng;
+      let dir = '';
+      if (Math.abs(latDiff) >= Math.abs(lngDiff)) {
+        dir = latDiff > 0 ? 'north' : 'south';
+      } else {
+        dir = lngDiff > 0 ? 'east' : 'west';
+      }
+
+      // Draw straight line on map
+      if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
+      if (destMarker)     { map.removeLayer(destMarker);     destMarker = null; }
+
+      routingControl = L.polyline(
+        [[userPos.lat, userPos.lng], [match.lat, match.lng]],
+        { color: '#e67e22', weight: 4, opacity: 0.8, dashArray: '8, 8' }
+      ).addTo(map);
+
+      destMarker = L.marker([match.lat, match.lng], {
+        icon: L.divIcon({
+          html: '<div class="ds-dest-pin">📍</div>',
+          className: '', iconSize: [32, 32], iconAnchor: [16, 32]
+        })
+      }).addTo(map).bindPopup(`<b>${match.code} — ${match.buildingName}</b><br><small>~${distM}m ${dir}</small>`).openPopup();
+
+      map.fitBounds(routingControl.getBounds(), { padding: [60, 60] });
+      setStatus(`📡 Offline — Head ~${distM}m ${dir} to ${match.buildingName} (${match.code})`, false);
+      return;
+    }
     const query = input.value.trim();
     if (!query) { setStatus('Please enter a destination.', true); return; }
     btn.disabled = true;
