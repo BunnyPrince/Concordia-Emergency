@@ -1,3 +1,6 @@
+import { addAlert } from '../../data/alertData.js';
+import { buildings } from '../../data/building.js';
+
 document.addEventListener("DOMContentLoaded", () => {
   const saved = localStorage.getItem("report");
   if (!saved) return;
@@ -49,29 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return details;
     };
 
-    // Save the data to reports
-    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
-    const existingIndex = reports.findIndex(r => 
-      r["Hazard Type"] === data["Hazard Type"] && 
-      r["Building"] === data["Building"] && 
-      r["Intersection Street 1"] === data["Intersection Street 1"] && 
-      r["Intersection Street 2"] === data["Intersection Street 2"]
-    );
-    if (existingIndex !== -1) {
-      reports[existingIndex]["information"].push(getDetails(data));
-      reports[existingIndex]["reported number"] += 1;
-    } else {
-      const common = {
-        "Hazard Type": data["Hazard Type"],
-        "Building": data["Building"],
-        "Intersection Street 1": data["Intersection Street 1"],
-        "Intersection Street 2": data["Intersection Street 2"],
-        "Reported Number": 1,
-        "Detail": [getDetails(data)]
+    // Add to alerts
+    const building = buildings.find(b => b.buildingName === data["Building"]);
+    if (building) {
+      const alertData = {
+        type: data["Hazard Type"],
+        buildingCode: building.code,
+        location: { lat: building.lat, lng: building.lng },
+        description: data["Building"],
+        status: 'UNDER REVIEW',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        detail: getDetails(data)
       };
-      reports.push(common);
+      addAlert(alertData);
     }
-    localStorage.setItem("reports", JSON.stringify(reports));
 
     localStorage.removeItem("report");
     popup.style.display = "flex";

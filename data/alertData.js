@@ -1,32 +1,52 @@
-export const alerts = [
-  {
-    id: 1,
-    type: 'Protest',
-    buildingCode: 'H',
-    location: { lat: 45.4972, lng: -73.5788 },
-    description: 'Large gathering blocking front entrance',
-    status: 'ACTIVE',
-    verification: 'Reported by 1 student',
-    time: '12:40 PM'
-  },
-  {
-    id: 2,
-    type: 'Elevator Malfunction',
-    buildingCode: 'LB',
-    location: { lat: 45.4969, lng: -73.5786 },
-    description: 'Elevator out of service on floors 2-4',
-    status: 'UNDER REVIEW',
-    verification: 'Reported by 3 students',
-    time: '2:14 PM'
-  },
-  {
-    id: 3,
-    type: 'Construction',
-    buildingCode: 'EV',
-    location: { lat: 45.4957, lng: -73.5778 },
-    description: 'Sidewalk partially blocked near main entrance',
-    status: 'ACTIVE',
-    verification: 'Verified by Campus Safety',
-    time: '9:00 AM'
+// Load alerts from localStorage
+function loadAlerts() {
+  const stored = localStorage.getItem('alerts');
+  return stored ? JSON.parse(stored) : [];
+}
+
+export const alerts = loadAlerts();
+
+// Function to add a new alert or increment existing one
+export function addAlert(alert) {
+  const currentAlerts = loadAlerts();
+  
+  // Check if alert with same type and building already exists
+  const existingIndex = currentAlerts.findIndex(a =>
+    a.type === alert.type &&
+    a.buildingCode === alert.buildingCode &&
+    a.location.lat === alert.location.lat &&
+    a.location.lng === alert.location.lng
+  );
+
+  let updatedAlerts;
+  if (existingIndex !== -1) {
+    // Update existing alert
+    const existing = currentAlerts[existingIndex];
+    const currentCount = parseInt(existing.verification.split(' ')[2]) || 1;
+    existing.verification = `Reported by ${currentCount + 1} students`;
+    
+    // Add detail if provided
+    if (alert.detail) {
+      if (!existing.detail) {
+        existing.detail = [];
+      }
+      existing.detail.push(alert.detail);
+    }
+    
+    updatedAlerts = currentAlerts;
+  } else {
+    // Create new alert
+    const newId = currentAlerts.length > 0 ? Math.max(...currentAlerts.map(a => a.id)) + 1 : 1;
+    const newAlert = {
+      ...alert,
+      id: newId,
+      verification: 'Reported by 1 student'
+    };
+    if (alert.detail) {
+      newAlert.detail = [alert.detail];
+    }
+    updatedAlerts = [...currentAlerts, newAlert];
   }
-];
+
+  localStorage.setItem('alerts', JSON.stringify(updatedAlerts));
+}
