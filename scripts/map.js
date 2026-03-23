@@ -1,6 +1,22 @@
 import { buildings } from '../data/building.js';
 import { alerts } from '../data/alertData.js';
 
+function isQuietHours() {
+  const saved = JSON.parse(localStorage.getItem('quietHours') || '{}');
+  if (saved.enabled === false) return false;
+  const start = saved.start || '22:00';
+  const end = saved.end || '07:00';
+  const now = new Date();
+  const cur = now.getHours() * 60 + now.getMinutes();
+  const [sh, sm] = start.split(':').map(Number);
+  const [eh, em] = end.split(':').map(Number);
+  const s = sh * 60 + sm;
+  const e = eh * 60 + em;
+  // handle overnight range e.g. 22:00 - 07:00
+  if (s > e) return cur >= s || cur < e;
+  return cur >= s && cur < e;
+}
+
 let lastKnownPosition = null;
 
 const alertColors = {
@@ -154,7 +170,7 @@ export function initLocationFeatures(map) {
     // Check proximity to alerts (50m)
     alerts.forEach(alert => {
       const dist = map.distance([userLat, userLng], [alert.location.lat, alert.location.lng]);
-      if (dist < 50 && !notifiedAlerts.has(alert.id)) {
+      if (dist < 50 && !notifiedAlerts.has(alert.id) && !isQuietHours()) {
         notifiedAlerts.add(alert.id);
         L.popup({ autoClose: false, closeOnClick: false })
           .setLatLng([alert.location.lat, alert.location.lng])
