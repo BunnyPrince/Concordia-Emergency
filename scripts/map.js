@@ -186,6 +186,7 @@ export function initLocationFeatures(map) {
 
   // Navigate to clicked building
   map.on('click', (e) => {
+    if (!navigator.onLine) return;
     navigator.geolocation.getCurrentPosition((pos) => {
       if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
       const d = 0.0005;
@@ -373,6 +374,7 @@ export function addDestinationSearch(map) {
   }
 
   async function handleSearch() {
+    if (!navigator.onLine) { setStatus('📡 Offline — Routing unavailable. Use the map to navigate.', true); return; }
     const query = input.value.trim();
     if (!query) { setStatus('Please enter a destination.', true); return; }
     btn.disabled = true;

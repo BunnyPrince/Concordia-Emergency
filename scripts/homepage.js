@@ -11,6 +11,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const map = initMap();
   initLocationFeatures(map);
   addDestinationSearch(map);
+
+  // Offline mode detection
+  function updateOfflineBanner() {
+    const banner = document.getElementById('offline-banner');
+    if (!banner) return;
+    banner.style.display = navigator.onLine ? 'none' : 'block';
+  }
+  updateOfflineBanner();
+  window.addEventListener('offline', updateOfflineBanner);
+  window.addEventListener('online', updateOfflineBanner);
+
   const menuBtn = document.querySelector(".mobile-menu");
   if (menuBtn) {
     menuBtn.addEventListener("click", toggleMenu);
