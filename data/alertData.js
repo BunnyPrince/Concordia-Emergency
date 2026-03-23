@@ -29,4 +29,25 @@ export const alerts = [
     verification: 'Verified by Campus Safety',
     time: '9:00 AM'
   }
+,
+  {
+    id: 4,
+    type: 'Weather Hazard',
+    buildingCode: 'GM',
+    location: { lat: 45.4959, lng: -73.5790 },
+    description: 'Icy sidewalk near main entrance cleared',
+    status: 'RESOLVED',
+    verification: 'Verified by Campus Safety',
+    time: '8:30 AM'
+  },
+  {
+    id: 5,
+    type: 'Elevator Malfunction',
+    buildingCode: 'H',
+    location: { lat: 45.4972, lng: -73.5788 },
+    description: 'Elevator on floors 8-12 back in service',
+    status: 'RESOLVED',
+    verification: 'Reported by 2 students',
+    time: '11:00 AM'
+  }
 ];
