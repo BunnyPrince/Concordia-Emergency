@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       r["Intersection Street 2"] === data["Intersection Street 2"]
     );
     if (existingIndex !== -1) {
-      reports[existingIndex]["information"].push(getDetails(data));
+      reports[existingIndex]["Detail"].push(getDetails(data));
       reports[existingIndex]["reported number"] += 1;
     } else {
       const common = {
