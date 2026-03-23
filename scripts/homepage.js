@@ -70,66 +70,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function toggleCrisisMode() {
   isCrisisMode = !isCrisisMode;
-  
   const crisisBtn = document.querySelector(".crisis");
+  
+  // Elements to hide completely
   const sidePanel = document.querySelector(".side-panel");
   const bottomSection = document.querySelector(".bottom-section");
-  const mapSection = document.querySelector(".map-section");
   const logo = document.querySelector(".logo");
   const authButtons = document.querySelector(".auth-buttons");
+  const header = document.querySelector(".header");
 
   if (isCrisisMode) {
-    // 1. Visual Feedback for High Alert
-    document.body.style.backgroundColor = "#912338"; // Concordia Red
-    crisisBtn.textContent = "❎ Crisis Mode";
-    crisisBtn.style.background = "";
-    crisisBtn.style.color = "#ffffff";
-    crisisBtn.style.fontWeight = "bold";
+    document.body.classList.add("crisis-active");
+    crisisBtn.textContent = "❎ Exit Crisis Mode";
 
-    // 2. Disable everything EXCEPT the map and the exit button
-    // We keep the layout the same but make these elements non-interactive
-    const backgroundElements = [sidePanel, bottomSection, logo, authButtons];
-    backgroundElements.forEach(el => {
-      if (el) {
-        el.style.opacity = "0.4";         // Visual cue that it's disabled
-        el.style.pointerEvents = "none";  // Prevents any clicks or hovers
-        el.style.userSelect = "none";     // Prevents highlighting text
-      }
+    // Hide everything except the map container
+    [header, sidePanel, bottomSection].forEach(el => {
+      if (el) el.style.display = "none";
     });
 
-    // 3. Keep Map fully active and highlight it
-    if (mapSection) {
-      mapSection.style.opacity = "1";
-      mapSection.style.pointerEvents = "auto";
-      mapSection.style.boxShadow = "0px 0px 20px 5px rgba(0, 0, 0, 0.5)";
-      mapSection.style.position = "relative";
-      mapSection.style.zIndex = "10"; // Ensures it stays on top visually
-    }
+    // Reposition the exit button so it stays clickable outside the hidden header
+    crisisBtn.style.position = "fixed";
+    crisisBtn.style.top = "20px";
+    crisisBtn.style.right = "20px";
+    crisisBtn.style.zIndex = "2000";
+    document.body.appendChild(crisisBtn);
 
   } else {
-    // 4. REVERT TO NORMAL DESIGN
-    // Setting these to empty strings tells the browser to use your original CSS files
-    document.body.style.backgroundColor = ""; 
-    
+    document.body.classList.remove("crisis-active");
     crisisBtn.textContent = "⚠️ Crisis Mode";
-    crisisBtn.style.background = ""; 
-    crisisBtn.style.color = "";
-    crisisBtn.style.fontWeight = "";
 
-    // Re-enable all background elements
-    const backgroundElements = [sidePanel, bottomSection, logo, authButtons];
-    backgroundElements.forEach(el => {
-      if (el) {
-        el.style.opacity = "";
-        el.style.pointerEvents = "";
-        el.style.userSelect = "";
-      }
+    // Restore elements
+    [header, sidePanel, bottomSection].forEach(el => {
+      if (el) el.style.display = "";
     });
 
-    // Reset Map style
-    if (mapSection) {
-      mapSection.style.boxShadow = "";
-      mapSection.style.zIndex = "";
-    }
+    // Move button back to original header location
+    const headerBottom = document.querySelector(".header-bottom");
+    if (headerBottom) headerBottom.appendChild(crisisBtn);
+    crisisBtn.style = ""; 
   }
+
+  // Force Leaflet to recognize the new box dimensions
+  setTimeout(() => {
+    if (window.map) {
+      window.map.invalidateSize();
+    }
+  }, 200);
 }

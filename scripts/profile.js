@@ -72,19 +72,6 @@ function editNavigation() {
         <option value="prioritize">Prioritize Elevator</option>
         <option value="avoid">Avoid Elevator</option>
       </select>
-      <label for="text">Text Size:</label>
-      <select id="text">
-        <option value="">Select an option</option>
-        <option value="small" ${savedText==='small'?'selected':''}>Small</option>
-        <option value="medium" ${savedText==='medium'?'selected':''}>Medium</option>
-        <option value="large" ${savedText==='large'?'selected':''}>Large</option>
-      </select>
-      <label for="color">Color Mode:</label>
-      <select id="color">
-        <option value="">Select an option</option>
-        <option value="standard" ${savedColor==='standard'?'selected':''}>Standard</option>
-        <option value="high-contrast" ${savedColor==='high-contrast'?'selected':''}>High Contrast</option>
-      </select>
     </div>
     <div class="edit-card navigation-edit-js">
       <button class="save-button navigation-button-js">
@@ -155,19 +142,13 @@ function saveSafety() {
 function saveNavigation() {
   const routeVal = document.getElementById('route').value || "Not Set";
   const elevatorVal = document.getElementById('elevator').value || "Not Set";
-  const textVal = document.getElementById('text').value || "Not Set";
-  const colorVal = document.getElementById('color').value || "Not Set";
 
-  localStorage.setItem('textSize', textVal);
-  localStorage.setItem('colorMode', colorVal);
   applySettings();
 
   document.querySelector('.navigation-inner-card-js').innerHTML = `
     <div class="navigation-display-card">
       <p>Route Preference: </p><p>${routeVal}</p>
       <p>Elevator Preference: </p><p>${elevatorVal}</p>
-      <p>Text Size: </p><p>${textVal}</p>
-      <p>Color Mode: </p><p>${colorVal}</p>
     </div>
     <div class="edit-card navigation-edit-js"><img src="../images/edit.png"></div>`;
   document.querySelector(".navigation-edit-js").addEventListener("click", editNavigation);

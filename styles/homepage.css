@@ -12,6 +12,38 @@ body{
   height: 100%;
 }
 
+/* Crisis Mode Padded Box Layout */
+body.crisis-active .main-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #912338 !important; /* Concordia Red for the padded area */
+}
+
+body.crisis-active .inner-container {
+    display: block !important;
+    /* This creates the 200px padded effect on all sides */
+    width: calc(100vw - 400px) !important; 
+    height: calc(100vh - 400px) !important;
+    padding: 0 !important;
+    margin-right: 150px !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5) !important;
+}
+
+body.crisis-active .map-section,
+body.crisis-active #map-js {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
 /* Header */
 
 .header{
