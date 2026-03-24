@@ -1,5 +1,5 @@
 import { buildings } from '../data/building.js';
-import { alerts } from '../data/alertData.js';
+import { getAlerts } from '../data/alertData.js';
 
 function isQuietHours() {
   const saved = JSON.parse(localStorage.getItem('quietHours') || '{}');
@@ -120,7 +120,7 @@ export function initMap() {
     'Elevator Malfunction': 'elevator',
     'Others': 'others'
   };
-  alerts.forEach(alert => {
+  getAlerts().forEach(alert => {
     const prefKey = typeMap[alert.type];
     if (prefKey && alertPrefs[prefKey] === false) return;
     const color = alertColors[alert.type] || '#7f8c8d';
@@ -168,7 +168,7 @@ export function initLocationFeatures(map) {
     userMarker.setLatLng([userLat, userLng]);
 
     // Check proximity to alerts (50m)
-    alerts.forEach(alert => {
+    getAlerts().forEach(alert => {
       const dist = map.distance([userLat, userLng], [alert.location.lat, alert.location.lng]);
       if (dist < 50 && !notifiedAlerts.has(alert.id) && !isQuietHours()) {
         notifiedAlerts.add(alert.id);
@@ -190,7 +190,7 @@ export function initLocationFeatures(map) {
     navigator.geolocation.getCurrentPosition((pos) => {
       if (routingControl) { map.removeLayer(routingControl); routingControl = null; }
       const d = 0.0005;
-      const excludePolygons = alerts
+      const excludePolygons = getAlerts()
         .filter(a => a.status === 'ACTIVE')
         .map(a => [
           [a.location.lng - d, a.location.lat - d],
@@ -337,7 +337,7 @@ export function addDestinationSearch(map) {
     }).addTo(map).bindPopup(`<b>Destination</b><br><small>${dest.label}</small>`).openPopup();
 
     const d = 0.0005;
-    const excludePolygons = alerts
+    const excludePolygons = getAlerts()
       .filter(a => a.status === 'ACTIVE')
       .map(a => [
         [a.location.lng - d, a.location.lat - d],

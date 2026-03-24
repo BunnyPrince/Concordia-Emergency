@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         location: { lat: building.lat, lng: building.lng },
         description: data["Building"],
         status: 'UNDER REVIEW',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        time: new Date().toISOString(),
         detail: getDetails(data)
       };
       addAlert(alertData);
